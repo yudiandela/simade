@@ -1,0 +1,85 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    height: 100%;
+}
+
+.bg {
+    position: relative;
+    background-image: url("../images/bg.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 300;
+}
+
+.img-box {
+    width: 270px;
+    height: 150px;
+    display: block;
+    margin: auto;
+    overflow: hidden;
+}
+
+.img-responsive {
+    object-fit: cover;
+    width: 300px;
+    margin: -65px 0 0 -25px;
+}
+
+.login-box {
+    border-radius: 10%;
+    width: 350px;
+    background: rgba(255, 255, 255, 0.602);
+    padding: 30px 50px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+
+label {
+    font-size: 11pt;
+}
+
+.login-form {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 11pt;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 3px;
+}
+
+.btn {
+    font-size: 14pt;
+    width: 100%;
+    border: none;
+    border-radius: 3px;
+    padding: 13px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.btn-primary {
+    background: #9c1010;
+    color: white;
+}
+
+.logo {
+    width: 200px;
+    position: absolute;
+    top: 12%;
+    left: 85%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
