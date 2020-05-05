@@ -21,4 +21,4 @@ Route::view('/thanks', 'survey.thanks')->name('survey.thanks');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'MainController@index')->name('home');
