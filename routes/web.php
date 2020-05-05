@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/SurveyPelanggan2020', 'survey.index')->name('survey.index');
+Route::post('/survey', 'SurveyController')->name('survey.store');
+
+Route::view('/thanks', 'survey.thanks')->name('survey.thanks');
 
 Auth::routes();
 
