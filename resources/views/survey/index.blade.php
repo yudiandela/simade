@@ -25,9 +25,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="name">* Nama Lengkap</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="name" name="name" class="form-control">
+                                    <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror">
                                     @error('name')
-                                        {{ $message }}
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -35,9 +35,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="address">* Alamat</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="address" name="address" class="form-control">
+                                    <input type="text" id="address" name="address" class="form-control @error('address') is-invalid @enderror">
                                     @error('address')
-                                        {{ $message }}
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -45,9 +45,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="phone">* No Handphone</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="phone" name="phone" class="form-control">
+                                    <input type="text" id="phone" name="phone" class="form-control @error('phone') is-invalid @enderror">
                                     @error('phone')
-                                        {{ $message }}
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -55,9 +55,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="occupant">* Jumlah Penghuni</label>
                                 <div class="col-sm-8">
-                                    <input type="number" id="occupant" name="occupant" class="form-control">
+                                    <input type="number" id="occupant" name="occupant" class="form-control @error('occupant') is-invalid @enderror">
                                     @error('occupant')
-                                        {{ $message }}
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -65,9 +65,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="children_education">* Pendidikan Anak</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="children_education" name="children_education" class="form-control" >
+                                    <input type="text" id="children_education" name="children_education" class="form-control @error('children_education') is-invalid @enderror">
                                     @error('children_education')
-                                        {{ $message }}
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-12 col-form-label">
                                     * Lokasi <br>
-                                    (Aktifkan GPS)
+                                    (Aktifkan GPS) Geser pin pada koordinat anda.
                                 </label>
                                 <div class="col-sm-12">
                                     <div id="googleMap" style="width:100%;height:380px;"></div>
