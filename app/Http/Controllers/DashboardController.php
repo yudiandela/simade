@@ -27,4 +27,10 @@ class DashboardController extends Controller
         $surveys = Survey::all();
         return view('dashboard.index', compact('surveys'));
     }
+
+    public function maps()
+    {
+        $surveys = Survey::all();
+        return view('dashboard.maps', compact('surveys'));
+    }
 }

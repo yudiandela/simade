@@ -18,7 +18,7 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-danger shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand img-box text-center" href="{{ route('dashboard') }}">
-                    <img class="img-responsive-dashboard" src="{{ asset('images/simade-logo.png') }}">
+                    <img class="img-responsive-dashboard" src="{{ asset('images/simade-logo-crop.png') }}">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -44,15 +44,10 @@
                         </li>
                     </ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto pr-5">
-                        <li class="nav-item">
-                            <a class="nav-link disabled text-white" href="#" tabindex="-1" aria-disabled="true">
-                                Updated <br>
-                                <span class="text-warning">{{ \Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y H:m:s') }}</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <span class="navbar-text pr-5 text-white">
+                        Updated <br>
+                        <span class="text-warning">{{ \Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y HH:mm:ss') }}</span>
+                    </span>
                 </div>
             </div>
         </nav>
@@ -63,6 +58,9 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="//maps.googleapis.com/maps/api/js"></script>
+    <script src="{{ asset('js/gmaps.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>
