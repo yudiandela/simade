@@ -16,6 +16,7 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <h3>Terima Kasih</h3>
+                        <p>Pesan setelah pengguna menginput data survey</p>
                     </div>
                 </div>
             </div>

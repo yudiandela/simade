@@ -24,7 +24,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $surveys = Survey::all();
+        $surveys = Survey::paginate(20);
         return view('dashboard.index', compact('surveys'));
     }
 

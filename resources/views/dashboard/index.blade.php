@@ -19,6 +19,16 @@
                     <option>DEMAND</option>
                 </select>
             </div>
+            <div class="col-md-2">
+                <select name="all_treg" class="form-control">
+                    <option>{{ date('d-m-Y') }}</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="all_treg" class="form-control">
+                    <option>{{ date('d-m-Y') }}</option>
+                </select>
+            </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -53,6 +63,8 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                {{ $surveys->links() }}
             </div>
         </div>
     </div>
