@@ -56,12 +56,20 @@ label {
     font-size: 11pt;
 }
 
-.login-form {
+.text-error {
+    font-size: 12px;
+    color: #9c1010;
+}
+
+.login-box > form > .form-group {
+    margin-bottom: 20px;
+}
+
+.login-box > form > .form-group > .form-control {
     box-sizing: border-box;
     width: 100%;
     padding: 15px 20px;
     font-size: 11pt;
-    margin-bottom: 20px;
     border: none;
     border-radius: 3px;
 }
