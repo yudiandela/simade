@@ -6,7 +6,7 @@
 <form method="POST" action="{{ route('login') }}">
     @csrf
     <div class="form-group">
-        <input type="email" name="email" class="form-control" placeholder="Email" required autofocus>
+        <input type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="Email" required autofocus>
         @error('email')
             <strong class="text-error">{{ $message }}</strong>
         @enderror
