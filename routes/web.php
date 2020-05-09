@@ -21,3 +21,5 @@ Route::view('/thanks', 'survey.thanks')->name('survey.thanks');
 Auth::routes();
 Route::get('/', 'DashboardController@index')->name('dashboard');
 Route::get('/inbox-maps', 'DashboardController@maps')->name('inbox.maps');
+
+Route::get('/import', 'ImportController');
