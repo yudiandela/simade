@@ -33,4 +33,9 @@ class DashboardController extends Controller
         $surveys = Survey::all();
         return view('dashboard.maps', compact('surveys'));
     }
+
+    public function myTask()
+    {
+        return view('dashboard.my-task');
+    }
 }

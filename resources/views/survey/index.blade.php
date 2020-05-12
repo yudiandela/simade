@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <title>Survey Pelanggan 2020</title>
-
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <x-script.header></x-script.header>
 </head>
 <body>
     <div class="container pb-5">
         <div class="row justify-content-center">
             <div class="col-md-8 mt-5">
-                <img src="{{ asset('images/logo-telkom-indonesia.png') }}" alt="" class="img-fluid mx-auto d-block pb-3 mb-4" width="250">
+                <img src="{{ asset('images/logo-telkom-01.png') }}" alt="" class="img-fluid mx-auto d-block pb-3 mb-4" width="250">
 
-                <h4 class="text-center pb-3">Form Survey</h4>
+                {{-- <h4 class="text-center pb-3">Form Survey</h4> --}}
 
                 <div class="card">
                     <div class="card-body">
@@ -25,7 +19,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="name">* Nama Lengkap</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror">
+                                    <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" autofocus>
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -55,7 +49,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="occupant">* Jumlah Penghuni</label>
                                 <div class="col-sm-8">
-                                    <input type="number" id="occupant" name="occupant" class="form-control @error('occupant') is-invalid @enderror">
+                                    <input type="number" id="occupant" name="occupant" min="1" value="1" class="form-control @error('occupant') is-invalid @enderror">
                                     @error('occupant')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -94,9 +88,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="//maps.googleapis.com/maps/api/js"></script>
-    <script src="{{ asset('js/gmaps.js') }}"></script>
+    <x-script.footer></x-script.footer>
     <script>
         var map = new GMaps({
             div: '#googleMap',
@@ -109,8 +101,8 @@
                 let lat = position.coords.latitude;
                 let lng = position.coords.longitude;
 
-                $('#lat').val(lat);
-                $('#lng').val(lng);
+                $('#lat').val(lat.toFixed(5));
+                $('#lng').val(lng.toFixed(5));
 
                 map.setCenter(lat, lng);
                 map.addMarker({
@@ -120,8 +112,8 @@
                     dragend: function(event) {
                         var lat = event.latLng.lat();
                         var lng = event.latLng.lng();
-                        $('#lat').val(lat);
-                        $('#lng').val(lng);
+                        $('#lat').val(lat.toFixed(5));
+                        $('#lng').val(lng.toFixed(5));
                     },
                     infoWindow: {
                         content: '<p>Data yang ingin di tampilkan</p>'
