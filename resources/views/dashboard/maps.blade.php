@@ -21,11 +21,12 @@
 @endsection
 
 @push('scripts')
-<script>
+{{-- <script>
     let iconBase = '{{ asset('images/icon/simade-logo-icon-64.png') }}';
     let map = new GMaps({
         div: '#googleMap',
         zoom: 10,
+        hideInfoWindows: true,
         click: function(e) {
             console.log(e.latLng.lat)
         }
@@ -73,5 +74,91 @@
         }
     });
     @endforeach
+</script> --}}
+
+<script>
+let iconRed = `{{ asset('images/icon/pin-red.png') }}`;
+let iconYellow = `{{ asset('images/icon/pin-yellow.png') }}`;
+let iconGreen = `{{ asset('images/icon/pin-green.png') }}`;
+let iconBlack = `{{ asset('images/icon/pin-black.png') }}`;
+let spaces = [];
+let customStyle = [{
+    featureType: "poi",
+    elementType: "labels",
+    stylers: [{
+        visibility: "off"
+    }]
+}];
+
+let map = new GMaps({
+    div: '#googleMap',
+    zoom: 20,
+    styles: customStyle,
+    mapTypeId: 'satellite',
+    click: function(e) {
+        console.log(e.latLng.lat)
+    }
+});
+
+fetch(`{{ route('api.obs') }}`)
+    .then((res) => res.json())
+    .then(function(data) {
+        data.data.forEach(function (value, index) {
+            map.setCenter(value.locn_x, value.locn_y);
+            map.addMarker({
+                lat: value.locn_x,
+                lng: value.locn_y,
+                icon: value.status == 'Red Occ' ? iconRed : value.status == 'Yellow Occ' ? iconYellow : value.status == 'Green Occ' ? iconGreen : iconBlack,
+                infoWindow: {
+                    content: `
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td><strong>DATEL</strong></td>
+                                <td>${value.datel}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LATITUDE</strong></td>
+                                <td>${value.locn_x}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LONGITUDE</strong></td>
+                                <td>${value.locn_y}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NAMA ODP</strong></td>
+                                <td>${value.nama_odp}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>REAL ISISKA AVAI</strong></td>
+                                <td>${value.real_isiska_avai}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>REAL ISISKA TOTAL</strong></td>
+                                <td>${value.real_isiska_total}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>REAL OCCUPANCY</strong></td>
+                                <td>${value.real_occupancy}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>STATUS</strong></td>
+                                <td>${value.status}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>STO</strong></td>
+                                <td>${value.sto}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WITEL</strong></td>
+                                <td>${value.witel}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    `
+                }
+            });
+        });
+    });
 </script>
 @endpush
