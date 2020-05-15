@@ -21,61 +21,6 @@
 @endsection
 
 @push('scripts')
-{{-- <script>
-    let iconBase = '{{ asset('images/icon/simade-logo-icon-64.png') }}';
-    let map = new GMaps({
-        div: '#googleMap',
-        zoom: 10,
-        hideInfoWindows: true,
-        click: function(e) {
-            console.log(e.latLng.lat)
-        }
-    });
-
-
-    @foreach($surveys as $survey)
-    map.setCenter({{ $survey->latitude }}, {{ $survey->longitude }});
-    map.addMarker({
-        lat: {{ $survey->latitude }},
-        lng: {{ $survey->longitude }},
-        icon: iconBase,
-        infoWindow: {
-            content: `
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Nama</td>
-                        <td>:</td>
-                        <td>{{ $survey->name }}</td>
-                    </tr>
-                    <tr>
-                        <td>No KTP</td>
-                        <td>:</td>
-                        <td>123456789</td>
-                    </tr>
-                    <tr>
-                        <td>Alamat</td>
-                        <td>:</td>
-                        <td>{{ $survey->address }}</td>
-                    </tr>
-                    <tr>
-                        <td>Longitude</td>
-                        <td>:</td>
-                        <td>{{ $survey->longitude }}</td>
-                    </tr>
-                    <tr>
-                        <td>Status Hunian</td>
-                        <td>:</td>
-                        <td>Milik Sendiri</td>
-                    </tr>
-                </tbody>
-            </table>
-            `
-        }
-    });
-    @endforeach
-</script> --}}
-
 <script>
 let iconRed = `{{ asset('images/icon/pin-red.png') }}`;
 let iconYellow = `{{ asset('images/icon/pin-yellow.png') }}`;
@@ -92,7 +37,7 @@ let customStyle = [{
 
 let map = new GMaps({
     div: '#googleMap',
-    zoom: 20,
+    zoom: 15,
     styles: customStyle,
     mapTypeId: 'satellite',
     click: function(e) {
@@ -152,6 +97,52 @@ fetch(`{{ route('api.obs') }}`)
                             <tr>
                                 <td><strong>WITEL</strong></td>
                                 <td>${value.witel}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    `
+                }
+            });
+        });
+    });
+
+let iconBase = '{{ asset('images/icon/simade-logo-icon-64.png') }}';
+fetch(`{{ route('api.surveys') }}`)
+    .then((res) => res.json())
+    .then(function(data) {
+        data.data.forEach(function (value, index) {
+            map.addMarker({
+                lat: value.latitude,
+                lng: value.longitude,
+                icon: iconBase,
+                infoWindow: {
+                    content: `
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Nama</td>
+                                <td>:</td>
+                                <td>${value.name}</td>
+                            </tr>
+                            <tr>
+                                <td>No KTP</td>
+                                <td>:</td>
+                                <td>123456789</td>
+                            </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <td>:</td>
+                                <td>${value.address}</td>
+                            </tr>
+                            <tr>
+                                <td>Longitude</td>
+                                <td>:</td>
+                                <td>${value.longitude}</td>
+                            </tr>
+                            <tr>
+                                <td>Status Hunian</td>
+                                <td>:</td>
+                                <td>Milik Sendiri</td>
                             </tr>
                         </tbody>
                     </table>
