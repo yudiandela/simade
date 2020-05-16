@@ -75,7 +75,7 @@ label {
     border-radius: 3px;
 }
 
-.btn {
+.btn-p {
     font-size: 14pt;
     width: 100%;
     border: none;
@@ -86,8 +86,42 @@ label {
 }
 
 .btn-primary {
-    background: #9c1010;
-    color: white;
+    background-color: #9c1010;
+    color: rgb(230, 230, 230);
+}
+
+.btn-primary:hover {
+    background-color: #790505;
+    color: rgb(255, 255, 255);
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff;
+  background-color: #9c1010;
+  border-color: #c81111;
+  box-shadow: 0 0 0 0.2rem rgba(225, 82, 82, 0.5);
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  color: #fff;
+  background-color: #790505;
+  border-color: #c81111;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #9c1010;
+  border-color: #da1111;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(231, 67, 67, 0.479);
 }
 
 .logo {

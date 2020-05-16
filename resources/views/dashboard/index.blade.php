@@ -6,14 +6,14 @@
         <div class="row">
             <div class="col">
                 <label for="">Regional</label>
-                <select id="regional" name="regional" class="form-control">
+                <select id="regional" name="regional" class="form-control getData">
                     <option value="all">ALL TREG</option>
                     <option value="treg-7">TREG 7</option>
                 </select>
             </div>
             <div class="col">
                 <label for="">Witel</label>
-                <select id="witel" name="witel" class="form-control">
+                <select id="witel" name="witel" class="form-control getData">
                     <option value="all">All</option>
                     <option value="sulut-malut">Sulut Malut</option>
                     <option value="papua">Papua</option>
@@ -21,7 +21,7 @@
             </div>
             <div class="col">
                 <label for="">Mode</label>
-                <select id="mode" name="mode" class="form-control">
+                <select id="mode" name="mode" class="form-control getData">
                     <option value="all">All</option>
                     <option value="datel">DATEL</option>
                     <option value="sto">STO</option>
@@ -29,7 +29,7 @@
             </div>
             <div class="col">
                 <label for="">Status</label>
-                <select id="status" name="status" class="form-control">
+                <select id="status" name="status" class="form-control getData">
                     <option value="all">All</option>
                     <option value="issued">Issued</option>
                     <option value="verificated">Verificated</option>
@@ -38,7 +38,7 @@
             </div>
             <div class="col">
                 <label for="">Task Owner</label>
-                <select id="task" name="task_owner" class="form-control">
+                <select id="task" name="task_owner" class="form-control getData">
                     <option value="all">All</option>
                     <option value="verificator">Verificator</option>
                     <option value="approver">Approver</option>
@@ -47,11 +47,14 @@
             </div>
             <div class="col">
                 <label for="">From</label>
-                <input id="from" name="from" class="datepicker form-control" />
+                <input id="from" name="from" class="datepicker form-control getData" />
             </div>
             <div class="col">
                 <label for="">To</label>
-                <input id="to" name="to" class="datepicker form-control" />
+                <input id="to" name="to" class="datepicker form-control getData" />
+            </div>
+            <div class="col-md-1 d-flex align-items-end">
+                <button id="resetBtn" class="btn btn-primary flex-fill">Reset</button>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -99,35 +102,48 @@ $(document).ready(function() {
         }
     });
 
+    var endPoint = `{{ route('dashboard.table') }}`;
+    var regional = $('#regional');
+    var witel    = $('#witel');
+    var mode     = $('#mode');
+    var status   = $('#status');
+    var task     = $('#task');
+    var from     = $('#from');
+    var to       = $('#to');
+
     async function loadData(url) {
-        return await fetch(url)
+        $('#showData').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
+        return await fetch(`${url}?regional=${regional.val()}&witel=${witel.val()}&mode=${mode.val()}&status=${status.val()}&task=${task.val()}&from=${from.val()}&to=${to.val()}`)
             .then( res => res.json())
             .then( data => $('#showData').html(data))
             .catch( error => console.error(error));
     }
 
-    var regional = $('#regional').val();
-    var witel    = $('#witel').val();
-    var mode     = $('#mode').val();
-    var status   = $('#status').val();
-    var task     = $('#task').val();
-    var from     = $('#from').val();
-    var to       = $('#to').val();
-
-    $('select').change(function() {
-        var regional = $('#regional').val();
-        var witel    = $('#witel').val();
-        var mode     = $('#mode').val();
-        var status   = $('#status').val();
-        var task     = $('#task').val();
-        var from     = $('#from').val();
-        var to       = $('#to').val();
+    async function resetData(url) {
+        regional.val('all');
+        witel.val('all');
+        mode.val('all');
+        status.val('all');
+        task.val('all');
+        from.val(null);
+        to.val(null);
 
         $('#showData').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
-        loadData(`{{ route('dashboard.table') }}?regional=${regional}&witel=${witel}&mode=${mode}&status=${status}&task=${task}&from=${from}&to=${to}`);
+        return await fetch(`${url}?regional=all&witel=all&mode=all&status=all&task=all&from=&to=`)
+            .then( res => res.json())
+            .then( data => $('#showData').html(data))
+            .catch( error => console.error(error));
+    }
+
+    $(".getData").change(function() {
+        loadData(endPoint);
     });
 
-    loadData(`{{ route('dashboard.table') }}?regional=${regional}&witel=${witel}&mode=${mode}&status=${status}&task=${task}`);
+    $("#resetBtn").click(function() {
+        resetData(endPoint);
+    });
+
+    loadData(endPoint);
 });
 </script>
 @endpush
