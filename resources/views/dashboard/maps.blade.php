@@ -21,6 +21,7 @@
 @endsection
 
 @push('scripts')
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap"></script>
 <script>
     async function initMap() {
         var iconRed = `{{ asset('images/icon/pin-red.png') }}`;

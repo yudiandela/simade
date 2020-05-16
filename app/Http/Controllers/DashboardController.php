@@ -28,6 +28,66 @@ class DashboardController extends Controller
         return view('dashboard.index', compact('surveys'));
     }
 
+    public function getTable(Request $request)
+    {
+        $regional = $request->regional;
+        $witel = $request->witel;
+        $mode = $request->mode;
+        $status = $request->status;
+        $task_owner = $request->task_owner;
+        $from = $request->from;
+        $to = $request->to;
+
+        $surveys = Survey::query();
+        if (!is_null($regional) and $regional != 'all') {
+            $surveys->where("regional", $regional);
+        }
+        if (!is_null($witel) and $witel != 'all') {
+            $surveys->where("witel", $witel);
+        }
+        if (!is_null($mode) and $mode != 'all') {
+            $surveys->where("mode", $mode);
+        }
+        if (!is_null($status) and $status != 'all') {
+            $surveys->where("status", $status);
+        }
+        if (!is_null($task_owner) and $task_owner != 'all') {
+            $surveys->where("task_owner", $task_owner);
+        }
+        if (!is_null($from) and $from != 'all') {
+            $surveys->where("created_at", $from);
+        }
+        if (!is_null($to) and $to != 'all') {
+            $surveys->where("created_at", $to);
+        }
+        $surveys = $surveys->get();
+
+        $loop = 1;
+        $data = [];
+        foreach ($surveys as $survey) {
+            $data[] = '
+                <tr>
+                    <td class="align-middle text-center">' . $loop . '</td>
+                    <td class="align-middle text-center">Lokasi</td>
+                    <td class="align-middle text-left">' . $survey->name . '</td>
+                    <td class="align-middle text-center">' . $survey->phone . '</td>
+                    <td class="align-middle text-center">Paket</td>
+                    <td class="align-middle text-left">' . $survey->address . '</td>
+                    <td class="align-middle text-center">' . $survey->occupant . '</td>
+                    <td class="align-middle text-center">Milik Pribadi</td>
+                    <td class="align-middle text-center">7x12</td>
+                </tr>
+            ';
+            $loop++;
+        }
+
+        if (count($data) == 0) {
+            $data[] = '<tr><td colspan="9" class="text-center">No Data</td></tr>';
+        }
+
+        return $data;
+    }
+
     public function maps()
     {
         $surveys = Survey::all();
