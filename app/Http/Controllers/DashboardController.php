@@ -68,7 +68,7 @@ class DashboardController extends Controller
                 <tr>
                     <td class="align-middle text-center">' . $loop . '</td>
                     <td class="align-middle text-center">Lokasi</td>
-                    <td class="align-middle text-left">' . $survey->name . '</td>
+                    <td class="align-middle text-left"><a href="' . route('inbox.maps') . '?lat=' . $survey->latitude . '&lng=' . $survey->longitude . '">' . $survey->name . '</a></td>
                     <td class="align-middle text-center">' . $survey->phone . '</td>
                     <td class="align-middle text-center">Paket</td>
                     <td class="align-middle text-left">' . $survey->address . '</td>
