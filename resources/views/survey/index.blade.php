@@ -89,47 +89,52 @@
     </div>
 
     <x-script.footer></x-script.footer>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap"></script>
     <script>
-        var map = new GMaps({
-            div: '#googleMap',
-            click: function(e) {
-                console.log(e.latLng.lat)
-            },
-        });
-        GMaps.geolocate({
-            success: function(position) {
-                let lat = position.coords.latitude;
-                let lng = position.coords.longitude;
+    var map, infoWindow, pos, marker;
+    function initMap() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
 
-                $('#lat').val(lat.toFixed(5));
-                $('#lng').val(lng.toFixed(5));
-
-                map.setCenter(lat, lng);
-                map.addMarker({
-                    lat: lat,
-                    lng: lng,
-                    draggable: true,
-                    dragend: function(event) {
-                        var lat = event.latLng.lat();
-                        var lng = event.latLng.lng();
-                        $('#lat').val(lat.toFixed(5));
-                        $('#lng').val(lng.toFixed(5));
-                    },
-                    infoWindow: {
-                        content: '<p>Data yang ingin di tampilkan</p>'
-                    }
+                map = new google.maps.Map(document.getElementById('googleMap'), {
+                    center: pos,
+                    zoom: 15
                 });
-            },
-            error: function(error) {
-                alert("Lokasi Anda Tidak Ditemukan");
-            },
-            not_supported: function() {
-                alert("Browser Anda Tidak Support Geolokasi");
-            },
-            always: function(e) {
+                infoWindow = new google.maps.InfoWindow;
 
-            }
-        });
+                $('#lat').val(pos.lat.toFixed(5));
+                $('#lng').val(pos.lng.toFixed(5));
+
+                marker = new google.maps.Marker({
+                    position: pos,
+                    draggable: true,
+                    animation: google.maps.Animation.DROP,
+                    map: map
+                });
+                marker.addListener('dragend', function() {
+                    $('#lat').val(this.position.lat().toFixed(5));
+                    $('#lng').val(this.position.lng().toFixed(5));
+                });
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                                'Error: The Geolocation service failed.' :
+                                'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
     </script>
 </body>
 </html>
