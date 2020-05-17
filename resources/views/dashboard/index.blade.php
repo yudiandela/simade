@@ -85,7 +85,6 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-
     $('#from').datepicker({
         uiLibrary: 'bootstrap4',
         format: 'yyyy-mm-dd',

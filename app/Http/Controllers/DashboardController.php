@@ -54,12 +54,11 @@ class DashboardController extends Controller
         if (!is_null($task_owner) and $task_owner != 'all') {
             $surveys->where("task_owner", $task_owner);
         }
-        if (!is_null($from) and $from != 'all') {
-            $surveys->where("created_at", $from);
+
+        if (!is_null($from)) {
+            $surveys->whereBetween("created_at", [$from, $to]);
         }
-        if (!is_null($to) and $to != 'all') {
-            $surveys->where("created_at", $to);
-        }
+
         $surveys = $surveys->get();
 
         $loop = 1;
