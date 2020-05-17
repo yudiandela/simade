@@ -88,9 +88,47 @@
         </div>
     </div>
 
+    {{-- <button id="open-chat" class="open-chat btn btn-success rounded-circle">Chat</button>
+
+    <div class="chat-popup" id="myForm">
+        <form action="/" class="form-chat-container">
+            <h2>Chat</h2>
+
+            <label for="msg"><b>Message</b></label>
+            <textarea placeholder="Type message.." name="msg" required></textarea>
+
+            <button type="submit" class="btn btn-success">Send</button>
+            <button id="close-chat" type="button" class="btn cancel">Close</button>
+        </form>
+    </div> --}}
+
     <x-script.footer></x-script.footer>
+
+    <!-- Live Chat Widget powered by https://keyreply.com/chat/ -->
+    <!-- Advanced options: -->
+    <!-- data-align="left" -->
+    <!-- data-overlay="true" -->
+    {{-- <script data-align="right" data-overlay="false" id="keyreply-script" src="//keyreply.com/chat/widget.js" data-color="#FF9800" data-apps="JTdCJTIycGhvbmUlMjI6JTIyMDg1MjYyNTI1NTkzJTIyLCUyMnRlbGVncmFtJTIyOiUyMkB5dWRpYW5kZWxhJTIyJTdE"></script> --}}
+
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var s,t; s = document.createElement('script'); s.type = 'text/javascript';
+            s.src = 'https://s3-ap-southeast-1.amazonaws.com/qiscus-sdk/public/qismo/qismo-v3.js'; s.async = true;
+            s.onload = s.onreadystatechange = function() { new Qismo("lyta-zcnbqwu1t2x3fvhi"); }
+            t = document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t);
+        });
+    </script> --}}
+
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap"></script>
     <script>
+    $("#open-chat").click( function() {
+        $("#myForm").css("display", "block");
+    });
+
+    $("#close-chat").click( function() {
+        $("#myForm").css("display", "none");
+    });
+
     var map, infoWindow, pos, marker;
     function initMap() {
         if (navigator.geolocation) {
