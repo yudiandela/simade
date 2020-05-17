@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Survey;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -67,7 +68,7 @@ class DashboardController extends Controller
             $data[] = '
                 <tr>
                     <td class="align-middle text-center">' . $loop . '</td>
-                    <td class="align-middle text-center">Lokasi</td>
+                    <td class="align-middle text-left">' . $survey->position . '</td>
                     <td class="align-middle text-left"><a href="' . route('inbox.maps') . '?lat=' . $survey->latitude . '&lng=' . $survey->longitude . '">' . $survey->name . '</a></td>
                     <td class="align-middle text-center">' . $survey->phone . '</td>
                     <td class="align-middle text-center">Paket</td>

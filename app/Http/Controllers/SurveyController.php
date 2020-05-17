@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Survey;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 class SurveyController extends Controller
@@ -23,6 +24,8 @@ class SurveyController extends Controller
             'children_education' => ['required']
         ]);
 
+        $position = ['Treg 1', 'Treg 2', 'Treg 3', 'Treg 4'];
+
         Survey::create([
             'name' => $request->name,
             'address' => $request->address,
@@ -31,6 +34,7 @@ class SurveyController extends Controller
             'children_education' => $request->children_education,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
+            'position' => Arr::random($position),
         ]);
 
         return redirect()->route('survey.thanks')->with('status', 'Terima kasih telah memberikan tanggapan anda');

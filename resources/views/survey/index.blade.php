@@ -75,6 +75,7 @@
                                     <div id="googleMap" style="width:100%;height:380px;"></div>
                                     <input id="lat" type="hidden" name="latitude">
                                     <input id="lng" type="hidden" name="longitude">
+                                    <input id="pos" type="hidden" name="position">
                                 </div>
                             </div>
 
@@ -110,14 +111,14 @@
     <!-- data-overlay="true" -->
     {{-- <script data-align="right" data-overlay="false" id="keyreply-script" src="//keyreply.com/chat/widget.js" data-color="#FF9800" data-apps="JTdCJTIycGhvbmUlMjI6JTIyMDg1MjYyNTI1NTkzJTIyLCUyMnRlbGVncmFtJTIyOiUyMkB5dWRpYW5kZWxhJTIyJTdE"></script> --}}
 
-    {{-- <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             var s,t; s = document.createElement('script'); s.type = 'text/javascript';
             s.src = 'https://s3-ap-southeast-1.amazonaws.com/qiscus-sdk/public/qismo/qismo-v3.js'; s.async = true;
             s.onload = s.onreadystatechange = function() { new Qismo("lyta-zcnbqwu1t2x3fvhi"); }
             t = document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t);
         });
-    </script> --}}
+    </script>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap"></script>
     <script>
@@ -129,7 +130,7 @@
         $("#myForm").css("display", "none");
     });
 
-    var map, infoWindow, pos, marker;
+    var map, infoWindow, pos, marker, geocoder;
     function initMap() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -137,6 +138,19 @@
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
+
+                geocoder = new google.maps.Geocoder;
+                geocoder.geocode({'location': pos}, function(results, status) {
+                    if (status === 'OK') {
+                        if (results[0]) {
+                            $('#address').val(results[0].formatted_address);
+                        } else {
+                            window.alert('No results found');
+                        }
+                    } else {
+                        window.alert('Geocoder failed due to: ' + status);
+                    }
+                });
 
                 map = new google.maps.Map(document.getElementById('googleMap'), {
                     center: pos,
@@ -153,9 +167,27 @@
                     animation: google.maps.Animation.DROP,
                     map: map
                 });
+
                 marker.addListener('dragend', function() {
-                    $('#lat').val(this.position.lat().toFixed(5));
-                    $('#lng').val(this.position.lng().toFixed(5));
+                    pos = {
+                        lat: this.position.lat(),
+                        lng: this.position.lng()
+                    };
+
+                    $('#lat').val(pos.lat.toFixed(5));
+                    $('#lng').val(pos.lng.toFixed(5));
+
+                    geocoder.geocode({'location': pos}, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                $('#address').val(results[0].formatted_address);
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
                 });
             }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
