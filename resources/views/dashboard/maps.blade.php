@@ -132,7 +132,7 @@
                                     <tr>
                                         <td>Lokasi</td>
                                         <td>:</td>
-                                        <td>${value.longitude} | ${value.longitude}</td>
+                                        <td>${value.latitude} | ${value.longitude}</td>
                                     </tr>
                                     <tr>
                                         <td>Status Hunian</td>
@@ -146,7 +146,12 @@
                 });
             });
 
-        map.setCenter(features[0].position);
+        @if(request()->has('lat') and request()->has('lng'))
+            map.setCenter(new google.maps.LatLng({{ request()->lat }}, {{ request()->lng }}));
+        @else
+            map.setCenter(features[0].position);
+        @endif
+
         // Create markers.
         for (var i = 0; i < features.length; i++) {
             var marker = new google.maps.Marker({
