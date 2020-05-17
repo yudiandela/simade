@@ -71,7 +71,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>NAMA ODP</strong></td>
-                                        <td>${value.nama_odp}</td>
+                                        <td><a href="{{ route('inbox.maps') }}?lat=${value.locn_x}&lng=${value.locn_y}">${value.nama_odp}</a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>REAL ISISKA AVAI</strong></td>
@@ -132,7 +132,7 @@
                                     <tr>
                                         <td>Lokasi</td>
                                         <td>:</td>
-                                        <td>${value.latitude} | ${value.longitude}</td>
+                                        <td><a href="{{ route('inbox.maps') }}?lat=${value.latitude}&lng=${value.longitude}">${value.latitude} | ${value.longitude}</a></td>
                                     </tr>
                                     <tr>
                                         <td>Status Hunian</td>
