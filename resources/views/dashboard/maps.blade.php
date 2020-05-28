@@ -224,12 +224,12 @@
             let searchField = $(this).val();
             let expression = new RegExp(searchField, "i");
 
-            $.getJSON('{{ route('api.surveys') }}', function(data) {
+            $.getJSON('{{ route('api.obs') }}', function(data) {
                 result.html('');
                 $.each(data.data, function(key, value) {
-                    if (value.address.search(expression) != -1 || value.name.search(expression) != -1) {
-                        result.append(`<li class="list-group-item link-class"><a href="{{ route('inbox.maps') }}?lat=${value.latitude}&lng=${value.longitude}">
-                        <span class="text-muted">${value.name} | ${value.address}</span>
+                    if (value.nama_odp.search(expression) != -1) {
+                        result.append(`<li class="list-group-item link-class"><a href="{{ route('inbox.maps') }}?lat=${value.locn_x}&lng=${value.locn_y}">
+                        <span class="text-muted">${value.nama_odp} | ${value.datel} | ${value.status}</span>
                         </a></li>`);
                     }
                 });
