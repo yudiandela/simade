@@ -16,6 +16,10 @@
         .link-class:hover{
             background-color:#f1f1f1;
         }
+
+        .link-class a:hover {
+            text-decoration: none;
+        }
     </style>
 @endpush
 
