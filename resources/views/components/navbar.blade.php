@@ -33,7 +33,7 @@
 
             <span class="navbar-text pr-5 text-white">
                 Updated <br>
-                <span class="text-warning">{{ \Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y HH:mm:ss') }}</span>
+                <span id="timer" class="text-warning"></span>
                 <p>
                     {{ Str::title(Auth::user()->role) }}
                 </p>

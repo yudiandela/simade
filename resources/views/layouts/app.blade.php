@@ -14,5 +14,12 @@
 
     <x-script.footer></x-script.footer>
     @stack('scripts')
+    <script>
+        setInterval(setTimer, 1000);
+        function setTimer() {
+            var d = new Date();
+            $("#timer").html(`{{ \Carbon\Carbon::now()->isoFormat('dddd, DD MMMM Y') }} ${d.toLocaleTimeString()}`);
+        }
+    </script>
 </body>
 </html>

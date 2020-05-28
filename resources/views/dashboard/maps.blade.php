@@ -1,14 +1,49 @@
 @extends('layouts.app')
 
+@push('styles')
+    <style>
+        #search-result {
+            position: absolute;
+            width: 100%;
+            max-width:870px;
+            cursor: pointer;
+            overflow-y: auto;
+            max-height: 400px;
+            box-sizing: border-box;
+            z-index: 1001;
+        }
+
+        .link-class:hover{
+            background-color:#f1f1f1;
+        }
+    </style>
+@endpush
+
 @section('content')
 <div class="px-5">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3">
-                <form class="form-inline">
-                    <img src="{{ asset('images/icon/menu.png') }}" width="32" class="d-inline mr-2">
-                    <input type="text" name="search" class="form-control" placeholder="Search Location">
-                </form>
+            <div class="col-md-4">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search Location">
+                <ul class="list-group" id="search-result"></ul>
+            </div>
+            <div class="col-md-4">
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="redOcc">
+                    <label class="custom-control-label" for="redOcc">Red OCC</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="yellowOcc">
+                    <label class="custom-control-label" for="yellowOcc">Yellow OCC</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="greenOcc">
+                    <label class="custom-control-label" for="greenOcc">Green OCC</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input" id="blackOcc">
+                    <label class="custom-control-label" for="blackOcc">Black OCC</label>
+                </div>
             </div>
         </div>
         <div class="row mt-2">
@@ -23,14 +58,16 @@
 @push('scripts')
 <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap"></script>
 <script>
-    async function initMap() {
-        var iconRed = `{{ asset('images/icon/pin-red.png') }}`;
-        var iconYellow = `{{ asset('images/icon/pin-yellow.png') }}`;
-        var iconGreen = `{{ asset('images/icon/pin-green.png') }}`;
-        var iconBlack = `{{ asset('images/icon/pin-black.png') }}`;
-        var iconBase = '{{ asset('images/icon/simade-logo-icon-64.png') }}';
+    var iconRed = `{{ asset('images/icon/pin-red.png') }}`;
+    var iconYellow = `{{ asset('images/icon/pin-yellow.png') }}`;
+    var iconGreen = `{{ asset('images/icon/pin-green.png') }}`;
+    var iconBlack = `{{ asset('images/icon/pin-black.png') }}`;
+    var iconBase = `{{ asset('images/icon/simade-logo-icon-64.png') }}`;
+    var features = [];
+    var map, customStyle, infowindow, markers;
 
-        var customStyle = [{
+    async function initMap() {
+        customStyle = [{
             featureType: "poi",
             elementType: "labels",
             stylers: [{
@@ -38,16 +75,42 @@
             }]
         }];
 
-        var map = new google.maps.Map(document.getElementById("googleMap"), {
+        map = new google.maps.Map(document.getElementById("googleMap"), {
             zoom: 15,
             styles: customStyle,
             mapTypeId: 'satellite',
         });
 
-        var infowindow = new google.maps.InfoWindow();
+        infowindow = new google.maps.InfoWindow();
 
-        var features = [];
-        await fetch(`{{ route('api.obs') }}`)
+        await fetchDataObs(`{{ route('api.obs') }}`);
+        await fetchDataSurveys(`{{ route('api.surveys') }}`);
+
+        @if(request()->has('lat') and request()->has('lng'))
+            map.setCenter(new google.maps.LatLng({{ request()->lat }}, {{ request()->lng }}));
+        @else
+            map.setCenter(features[0].position);
+        @endif
+
+        // Create markers.
+        for (var i = 0; i < features.length; i++) {
+            markers = new google.maps.Marker({
+                position: features[i].position,
+                icon: features[i].icon,
+                map: map,
+                html: features[i].content
+            });
+
+            google.maps.event.addListener(markers, 'click', function() {
+                infowindow.close(); // Close previously opened infowindow
+                infowindow.setContent(this.html);
+                infowindow.open(map, this);
+            });
+        };
+    }
+
+    function fetchDataObs(url) {
+        return fetch(url)
             .then((res) => res.json())
             .then(function(data) {
                 data.data.forEach(function (value, index) {
@@ -103,8 +166,10 @@
                     });
                 });
             });
+    }
 
-        await fetch(`{{ route('api.surveys') }}`)
+    function fetchDataSurveys(url) {
+        return fetch(url)
             .then((res) => res.json())
             .then(function(data) {
                 data.data.forEach(function (value, index) {
@@ -145,29 +210,27 @@
                     });
                 });
             });
-
-        @if(request()->has('lat') and request()->has('lng'))
-            map.setCenter(new google.maps.LatLng({{ request()->lat }}, {{ request()->lng }}));
-        @else
-            map.setCenter(features[0].position);
-        @endif
-
-        // Create markers.
-        for (var i = 0; i < features.length; i++) {
-            var marker = new google.maps.Marker({
-                position: features[i].position,
-                icon: features[i].icon,
-                map: map,
-                html: features[i].content
-            });
-
-            google.maps.event.addListener(marker, 'click', function(){
-                infowindow.close(); // Close previously opened infowindow
-                infowindow.setContent(this.html);
-                infowindow.open(map, this);
-            });
-
-        };
     }
+
+    $(document).ready(function() {
+        $.ajaxSetup({ cache: false });
+        $('#search').keyup(function() {
+            let result = $('#search-result');
+
+            let searchField = $(this).val();
+            let expression = new RegExp(searchField, "i");
+
+            $.getJSON('{{ route('api.surveys') }}', function(data) {
+                result.html('');
+                $.each(data.data, function(key, value) {
+                    if (value.address.search(expression) != -1 || value.name.search(expression) != -1) {
+                        result.append(`<li class="list-group-item link-class"><a href="{{ route('inbox.maps') }}?lat=${value.latitude}&lng=${value.longitude}">
+                        <span class="text-muted">${value.name} | ${value.address}</span>
+                        </a></li>`);
+                    }
+                });
+            });
+        });
+    });
 </script>
 @endpush
