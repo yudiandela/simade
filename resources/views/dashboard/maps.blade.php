@@ -28,24 +28,24 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <input type="text" name="search" id="search" class="form-control" placeholder="Search Location">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Masukkan nama ODP">
                 <ul class="list-group" id="search-result"></ul>
             </div>
             <div class="col-md-4">
                 <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="redOcc">
+                    <input type="checkbox" class="custom-control-input checkbox" id="redOcc" value="red" checked>
                     <label class="custom-control-label" for="redOcc">Red OCC</label>
                 </div>
                 <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="yellowOcc">
+                    <input type="checkbox" class="custom-control-input checkbox" id="yellowOcc" value="yellow" checked>
                     <label class="custom-control-label" for="yellowOcc">Yellow OCC</label>
                 </div>
                 <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="greenOcc">
+                    <input type="checkbox" class="custom-control-input checkbox" id="greenOcc" value="green" checked>
                     <label class="custom-control-label" for="greenOcc">Green OCC</label>
                 </div>
                 <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" class="custom-control-input" id="blackOcc">
+                    <input type="checkbox" class="custom-control-input checkbox" id="blackOcc" value="black" checked>
                     <label class="custom-control-label" for="blackOcc">Black OCC</label>
                 </div>
             </div>
@@ -68,7 +68,8 @@
     var iconBlack = `{{ asset('images/icon/pin-black.png') }}`;
     var iconBase = `{{ asset('images/icon/simade-logo-icon-64.png') }}`;
     var features = [];
-    var map, customStyle, infowindow, markers;
+    var markers = [];
+    var map, customStyle, infowindow;
 
     async function initMap() {
         customStyle = [{
@@ -98,20 +99,48 @@
 
         // Create markers.
         for (var i = 0; i < features.length; i++) {
-            markers = new google.maps.Marker({
+            var marker = new google.maps.Marker({
                 position: features[i].position,
                 icon: features[i].icon,
                 map: map,
+                type: features[i].type,
                 html: features[i].content
             });
 
-            google.maps.event.addListener(markers, 'click', function() {
+            markers.push(marker);
+
+            google.maps.event.addListener(marker, 'click', function() {
                 infowindow.close(); // Close previously opened infowindow
                 infowindow.setContent(this.html);
                 infowindow.open(map, this);
             });
         };
     }
+
+    function show(type) {
+        for (var i = 0; i < features.length; i++) {
+            if (features[i].type == type) {
+                markers[i].setVisible(true);
+            }
+        }
+    }
+
+    function hide(type) {
+        for (var i = 0; i < features.length; i++) {
+            if (features[i].type == type) {
+                markers[i].setVisible(false);
+            }
+        }
+    }
+
+    $(".checkbox").click( function () {
+        var cat = $(this).attr("value");
+        if ($(this).is(":checked")) {
+            show(cat);
+        } else {
+            hide(cat);
+        }
+    });
 
     function fetchDataObs(url) {
         return fetch(url)
@@ -121,6 +150,7 @@
                     features.push({
                         position: new google.maps.LatLng(value.locn_x, value.locn_y),
                         icon: value.status == 'Red Occ' ? iconRed : value.status == 'Yellow Occ' ? iconYellow : value.status == 'Green Occ' ? iconGreen : iconBlack,
+                        type: value.status == 'Red Occ' ? 'red' : value.status == 'Yellow Occ' ? 'yellow' : value.status == 'Green Occ' ? 'green' : 'black',
                         content: `
                             <table class="table table-bordered">
                                 <tbody>
@@ -180,6 +210,7 @@
                     features.push({
                         position: new google.maps.LatLng(value.latitude, value.longitude),
                         icon: iconBase,
+                        type: 'user',
                         content: `
                             <table>
                                 <tbody>
@@ -219,10 +250,10 @@
     $(document).ready(function() {
         $.ajaxSetup({ cache: false });
         $('#search').keyup(function() {
-            let result = $('#search-result');
+            var result = $('#search-result');
 
-            let searchField = $(this).val();
-            let expression = new RegExp(searchField, "i");
+            var searchField = $(this).val();
+            var expression = new RegExp(searchField, "i");
 
             $.getJSON('{{ route('api.obs') }}', function(data) {
                 result.html('');
