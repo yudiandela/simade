@@ -18,25 +18,46 @@ class SurveyController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'min:3', 'max:255'],
-            'address' => ['required', 'string', 'min:3', 'max:255'],
-            'phone' => ['required', 'string', 'min:3', 'max:15'],
-            'occupant' => ['required', 'numeric'],
-            'children_education' => ['required']
+            'address' => ['required', 'string'],
+            'phone' => ['required', 'string'],
+            'ktp' => ['required', 'string'],
+            'price' => ['required']
         ]);
 
-        $position = ['Treg 1', 'Treg 2', 'Treg 3', 'Treg 4'];
+        $price = explode(',', $request->price);
+        $address = explode(',', $request->address);
+        $price_to = null;
+        if (array_key_exists(1, $price)) {
+            $price_to = $price[1];
+        }
 
         Survey::create([
             'name' => $request->name,
             'address' => $request->address,
+            'province' => trim($this->last($address, 2)),
+            'districts' => trim($this->last($address, 3)),
+            'sub_district' => trim($this->last($address, 4)),
             'phone' => $request->phone,
-            'occupant' => $request->occupant,
-            'children_education' => $request->children_education,
+            'ktp' => $request->ktp,
+            'price_from' => $price[0],
+            'price_to' => $price_to,
             'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'position' => Arr::random($position),
+            'longitude' => $request->longitude
         ]);
 
         return redirect()->route('survey.thanks')->with('status', 'Terima kasih telah memberikan tanggapan anda');
+    }
+
+    private function last(array $array, $n = null)
+    {
+        if (!is_array($array) || empty($array)) {
+            return NULL;
+        }
+
+        if ($n) {
+            return array_values($array)[count($array) - $n];
+        }
+
+        return array_values($array)[count($array) - 1];
     }
 }

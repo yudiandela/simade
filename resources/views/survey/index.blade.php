@@ -17,9 +17,11 @@
                             @csrf
 
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label" for="name">* Nama Lengkap</label>
+                                <label class="col-sm-4 col-form-label" for="name">
+                                    * Nama Lengkap <br>
+                                </label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" autofocus>
+                                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" autofocus>
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -27,9 +29,12 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label" for="address">* Alamat</label>
+                                <label class="col-sm-4 col-form-label" for="address">
+                                    * Alamat Lengkap <br>
+                                    (Diambil otomatis dari google)
+                                </label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="address" name="address" class="form-control @error('address') is-invalid @enderror">
+                                    <input type="text" id="address" name="address" value="{{ old('address') }}" class="form-control @error('address') is-invalid @enderror">
                                     @error('address')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -37,9 +42,12 @@
                             </div>
 
                             <div class="form-group row">
-                                <label class="col-sm-4 col-form-label" for="phone">* No Handphone</label>
+                                <label class="col-sm-4 col-form-label" for="phone">
+                                    * No Handphone <br>
+                                    (Pastikan dapat dihubungi)
+                                </label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="phone" name="phone" class="form-control @error('phone') is-invalid @enderror">
+                                    <input type="text" id="phone" name="phone" value="{{ old('phone') }}" class="form-control @error('phone') is-invalid @enderror">
                                     @error('phone')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -47,6 +55,35 @@
                             </div>
 
                             <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="ktp">
+                                    * No KTP <br>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="ktp" name="ktp" value="{{ old('ktp') }}" class="form-control @error('ktp') is-invalid @enderror">
+                                    @error('ktp')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="price">
+                                    * Range harga yang diinginkan <br>
+                                </label>
+                                <div class="col-sm-8">
+                                    <select name="price" class="form-control @error('price') is-invalid @enderror">
+                                        <option value="300,500" {{ old('price') == "300,500" ? 'selected' : '' }}>300 rb - 500 rb</option>
+                                        <option value="500,700" {{ old('price') == "500,700" ? 'selected' : '' }}>500 rb - 700 rb</option>
+                                        <option value="700,1000" {{ old('price') == "700,1000" ? 'selected' : '' }}>700 rb - 1 juta</option>
+                                        <option value="1000" {{ old('price') == "1000" ? 'selected' : '' }}>> 1 juta</option>
+                                    </select>
+                                    @error('price')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            {{-- <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="occupant">* Jumlah Penghuni</label>
                                 <div class="col-sm-8">
                                     <input type="number" id="occupant" name="occupant" min="1" value="1" class="form-control @error('occupant') is-invalid @enderror">
@@ -64,7 +101,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group row">
                                 <label class="col-sm-12 col-form-label">
@@ -111,14 +148,14 @@
     <!-- data-overlay="true" -->
     {{-- <script data-align="right" data-overlay="false" id="keyreply-script" src="//keyreply.com/chat/widget.js" data-color="#FF9800" data-apps="JTdCJTIycGhvbmUlMjI6JTIyMDg1MjYyNTI1NTkzJTIyLCUyMnRlbGVncmFtJTIyOiUyMkB5dWRpYW5kZWxhJTIyJTdE"></script> --}}
 
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             var s,t; s = document.createElement('script'); s.type = 'text/javascript';
             s.src = 'https://s3-ap-southeast-1.amazonaws.com/qiscus-sdk/public/qismo/qismo-v3.js'; s.async = true;
             s.onload = s.onreadystatechange = function() { new Qismo("lyta-zcnbqwu1t2x3fvhi"); }
             t = document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t);
         });
-    </script>
+    </script> --}}
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap"></script>
     <script>
@@ -204,6 +241,18 @@
                                 'Error: The Geolocation service failed.' :
                                 'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
+    }
+
+    function last(array, n) {
+        if (array == null) {
+            return void 0;
+        }
+
+        if (n == null) {
+            return array[array.length - 1];
+        }
+
+        return array[array.length - n];
     }
     </script>
 </body>

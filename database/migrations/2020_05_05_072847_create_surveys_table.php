@@ -17,9 +17,13 @@ class CreateSurveysTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
+            $table->string('province');
+            $table->string('districts');
+            $table->string('sub_district');
+            $table->string('ktp');
             $table->string('phone');
-            $table->string('occupant');
-            $table->string('children_education');
+            $table->integer('price_from')->nullable();
+            $table->integer('price_to')->nullable();
             $table->decimal('latitude', 10, 7);
             $table->decimal('longitude', 10, 7);
             $table->timestamps();

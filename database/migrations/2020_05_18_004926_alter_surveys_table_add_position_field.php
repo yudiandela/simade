@@ -14,7 +14,7 @@ class AlterSurveysTableAddPositionField extends Migration
     public function up()
     {
         Schema::table('surveys', function (Blueprint $table) {
-            $table->string('position');
+            $table->string('position')->nullable();
         });
     }
 
