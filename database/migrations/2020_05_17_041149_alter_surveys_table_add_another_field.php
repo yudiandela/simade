@@ -17,7 +17,7 @@ class AlterSurveysTableAddAnotherField extends Migration
             $table->string('regional')->nullable();
             $table->string('witel')->nullable();
             $table->string('mode')->nullable();
-            $table->string('status')->nullable();
+            // $table->string('status')->nullable();
             $table->string('task_owner')->nullable();
             $table->string('date')->nullable();
         });

@@ -26,6 +26,8 @@ class CreateSurveysTable extends Migration
             $table->integer('price_to')->nullable();
             $table->decimal('latitude', 10, 7);
             $table->decimal('longitude', 10, 7);
+            $table->enum('status', ['On Progress', 'Done', 'Cancel']);
+            $table->enum('handler', ['Verificator', 'Deployment', 'Manager CS']);
             $table->timestamps();
         });
     }

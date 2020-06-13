@@ -37,12 +37,12 @@ class SurveyController extends Controller
             'province' => trim($this->last($address, 2)),
             'districts' => trim($this->last($address, 3)),
             'sub_district' => trim($this->last($address, 4)),
-            'phone' => $request->phone,
-            'ktp' => $request->ktp,
-            'price_from' => $price[0],
-            'price_to' => $price_to,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude
+            'phone' => (string) $request->phone,
+            'ktp' => (string) $request->ktp,
+            'price_from' => (int) $price[0],
+            'price_to' => (int) $price_to,
+            'latitude' => (float) $request->latitude,
+            'longitude' => (float) $request->longitude
         ]);
 
         return redirect()->route('survey.thanks')->with('status', 'Terima kasih telah memberikan tanggapan anda');

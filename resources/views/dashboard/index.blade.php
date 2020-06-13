@@ -3,7 +3,7 @@
 @section('content')
 <div class="p-5">
     <div class="container-fluid">
-        <div class="row">
+        {{-- <div class="row">
             <div class="col">
                 <label for="">Regional</label>
                 <select id="regional" name="regional" class="form-control getData">
@@ -56,25 +56,44 @@
             <div class="col-md-1 d-flex align-items-end">
                 <button id="resetBtn" class="btn btn-primary flex-fill">Reset</button>
             </div>
-        </div>
+        </div> --}}
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <table class="table table-bordered mt-5">
                     <thead class="bg-danger text-white">
                         <tr>
                             <th class="align-middle text-center">No</th>
-                            <th class="align-middle text-center">Lokasi</th>
                             <th class="align-middle text-center">Nama</th>
                             <th class="align-middle text-center">No HP</th>
-                            <th class="align-middle text-center">Paket</th>
-                            <th class="align-middle text-center">Alamat</th>
-                            <th class="align-middle text-center">Jumlah Penghuni</th>
-                            <th class="align-middle text-center">Status Hunian</th>
-                            <th class="align-middle text-center">Luas Rumah</th>
+                            <th class="align-middle text-center">Provinsi</th>
+                            <th class="align-middle text-center">Kota</th>
+                            <th class="align-middle text-center">Kecamatan</th>
+                            <th class="align-middle text-center">Range Harga</th>
+                            <th class="align-middle text-center">Status</th>
+                            <th class="align-middle text-center">Handler</th>
                         </tr>
                     </thead>
 
-                    <tbody id="showData"></tbody>
+                    {{-- <tbody id="showData"></tbody> --}}
+                    <tbody>
+                        @if (count($surveys) > 0)
+                        @foreach ($surveys as $survey)
+                        <tr>
+                            <td class="align-middle text-center">{{ $loop->iteration }}</td>
+                            <td class="align-middle text-left"><a href="{{ route('inbox.maps') }}?lat={{ $survey->latitude }}&lng={{ $survey->longitude }}">{{ $survey->name }}</a></td>
+                            <td class="align-middle text-center">{{ $survey->phone }}</td>
+                            <td class="align-middle text-left">{{ $survey->province }}</td>
+                            <td class="align-middle text-left">{{ $survey->districts }}</td>
+                            <td class="align-middle text-left">{{ $survey->sub_district }}</td>
+                            <td class="align-middle text-center">{{ $survey->price }}</td>
+                            <td class="align-middle text-center">{{ $survey->status }}</td>
+                            <td class="align-middle text-center">{{ $survey->handler }}</td>
+                        </tr>
+                        @endforeach
+                        @else
+                        <tr><td colspan="9" class="text-center">No Data</td></tr>
+                        @endif
+                    </tbody>
                 </table>
             </div>
         </div>
