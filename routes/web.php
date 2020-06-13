@@ -23,5 +23,7 @@ Route::get('/', 'DashboardController@index')->name('dashboard');
 Route::get('/table', 'DashboardController@getTable')->name('dashboard.table');
 Route::get('/inbox-maps', 'DashboardController@maps')->name('inbox.maps');
 Route::get('/my-tasks', 'DashboardController@myTask')->name('mytask');
+Route::patch('/approve', 'DashboardController@approve')->name('approve');
+Route::patch('/not-approve', 'DashboardController@not_approve')->name('not-approve');
 
 Route::get('/import', 'ImportController');

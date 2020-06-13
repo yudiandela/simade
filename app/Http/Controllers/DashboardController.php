@@ -29,6 +29,52 @@ class DashboardController extends Controller
         return view('dashboard.index', compact('surveys'));
     }
 
+    public function approve(Request $request)
+    {
+        $survey = Survey::find($request->survey);
+
+        if ($survey->handler == 'Verificator') {
+            $handler = 'Deployment';
+            $status = 'On Progress';
+        } elseif ($survey->handler == 'Deployment') {
+            $handler = 'Manager CS';
+            $status = 'On Progress';
+        } else {
+            $handler = 'Manager CS';
+            $status = 'Done';
+        }
+
+        $survey->update([
+            'note' => $request->note,
+            'status' => $status,
+            'handler' => $handler
+        ]);
+
+        return redirect()->route('dashboard')->with('status', 'Approved');
+    }
+
+    public function not_approve(Request $request)
+    {
+        $survey = Survey::find($request->survey);
+
+        $status = 'Cancel';
+        if ($survey->handler == 'Deployment') {
+            $handler = 'Verificator';
+        } elseif ($survey->handler == 'Manager CS') {
+            $handler = 'Deployment';
+        } else {
+            $handler = 'Verificator';
+        }
+
+        $survey->update([
+            'note' => 'Not Approved by ' . $survey->handler,
+            'status' => $status,
+            'handler' => $handler
+        ]);
+
+        return redirect()->route('dashboard')->with('status', 'Not Approved');
+    }
+
     public function getTable(Request $request)
     {
         $regional = $request->regional;

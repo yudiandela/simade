@@ -28,6 +28,7 @@ class CreateSurveysTable extends Migration
             $table->decimal('longitude', 10, 7);
             $table->enum('status', ['On Progress', 'Done', 'Cancel']);
             $table->enum('handler', ['Verificator', 'Deployment', 'Manager CS']);
+            $table->string('note')->default('-');
             $table->timestamps();
         });
     }
