@@ -31,12 +31,12 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Approval',
-            'email' => 'approval@email.com',
+            'name' => 'Manager CS',
+            'email' => 'manager-cs@email.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'role' => 'approval'
+            'role' => 'manager cs'
         ]);
 
         User::create([

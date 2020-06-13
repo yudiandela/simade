@@ -102,26 +102,31 @@
                                 </td>
                                 <td class="align-middle text-center">
                                     @if (Auth::user()->role !== 'admin')
-                                        @if ($survey->handler == Str::title(Auth::user()->role))
-                                            @if($survey->handler == 'Deployment')
-                                                <button type="button" class="btn btn-sm btn-info">Estimated Time</button>
-                                            @endif
+                                        @if($survey->status !== 'Done')
+                                            @if (strtolower($survey->handler) == Auth::user()->role)
+                                                @if($survey->handler == 'Deployment')
+                                                    <button type="button" class="btn btn-sm btn-info">Estimated Time</button>
+                                                @endif
 
-                                            @if($survey->status == 'Cancel')
-                                            <button type="button" class="btn btn-sm btn-warning disabled">
-                                                Not Approve
-                                            </button>
+                                                @if($survey->status == 'Cancel')
+                                                    <button type="button" class="btn btn-sm btn-warning disabled">
+                                                        Not Approve
+                                                    </button>
+                                                @else
+                                                    <button type="button" class="btn btn-sm btn-warning" onclick="confirmForm('formSurvey{{ $survey->id }}')">
+                                                        Not Approve
+                                                    </button>
+                                                    <form id="formSurvey{{ $survey->id }}" style="display: none;" action="{{ route('not-approve') }}" method="POST">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <input type="hidden" name="survey" value="{{ $survey->id }}">
+                                                    </form>
+                                                @endif
+                                                <button type="button" class="btn btn-sm btn-primary btn-handler" data-id="{{ $survey->id }}" data-handler="{{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal">Approve</button>
                                             @else
-                                            <button type="button" class="btn btn-sm btn-warning" onclick="confirmForm('formSurvey{{ $survey->id }}')">
-                                                Not Approve
-                                            </button>
-                                            <form id="formSurvey{{ $survey->id }}" style="display: none;" action="{{ route('not-approve') }}" method="POST">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="survey" value="{{ $survey->id }}">
-                                            </form>
+                                                <button type="button" disabled class="btn btn-sm btn-warning disabled">Not Approve</button>
+                                                <button type="button" disabled class="btn btn-sm btn-primary disabled">Approve</button>
                                             @endif
-                                            <button type="button" class="btn btn-sm btn-primary btn-handler" data-id="{{ $survey->id }}" data-handler="{{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal">Approve</button>
                                         @else
                                             <button type="button" disabled class="btn btn-sm btn-warning disabled">Not Approve</button>
                                             <button type="button" disabled class="btn btn-sm btn-primary disabled">Approve</button>

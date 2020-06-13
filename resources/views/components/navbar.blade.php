@@ -35,7 +35,7 @@
                 Updated <br>
                 <span id="timer" class="text-warning"></span>
                 <p>
-                    {{ Str::title(Auth::user()->role) }}
+                    {{ Auth::user()->name . ' (' . Auth::user()->role . ')' }}
                 </p>
             </span>
         </div>

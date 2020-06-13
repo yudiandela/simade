@@ -14,7 +14,7 @@ class AlterUsersTableAddRoleField extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', ['verificator', 'approval', 'deployment', 'admin'])->after('password');
+            $table->enum('role', ['verificator', 'deployment', 'manager cs', 'admin'])->after('password');
         });
     }
 
