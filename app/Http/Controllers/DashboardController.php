@@ -35,17 +35,20 @@ class DashboardController extends Controller
 
         if ($survey->handler == 'Verificator') {
             $handler = 'Deployment';
+            $note = $request->note;
             $status = 'On Progress';
         } elseif ($survey->handler == 'Deployment') {
             $handler = 'Manager CS';
+            $note = $survey->note;
             $status = 'On Progress';
         } else {
             $handler = 'Manager CS';
+            $note = $survey->note;
             $status = 'Done';
         }
 
         $survey->update([
-            'note' => $request->note,
+            'note' => $note,
             'status' => $status,
             'handler' => $handler
         ]);
@@ -60,14 +63,17 @@ class DashboardController extends Controller
         $status = 'Cancel';
         if ($survey->handler == 'Deployment') {
             $handler = 'Verificator';
+            $note = $request->note;
         } elseif ($survey->handler == 'Manager CS') {
             $handler = 'Deployment';
+            $note = $request->note;
         } else {
             $handler = 'Verificator';
+            $note = 'Not approved ' . $survey->handler;
         }
 
         $survey->update([
-            'note' => 'Not Approved by ' . $survey->handler,
+            'note' => $note,
             'status' => $status,
             'handler' => $handler
         ]);

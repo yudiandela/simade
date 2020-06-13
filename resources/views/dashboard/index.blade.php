@@ -102,7 +102,46 @@
                                 </td>
                                 <td class="align-middle text-center">
                                     @if (Auth::user()->role !== 'admin')
-                                        @if($survey->status !== 'Done')
+                                        @if(strtolower($survey->status) !== 'done')
+                                            @if(Auth::user()->role === 'verificator' && strtolower($survey->handler) == 'verificator')
+                                                <button type="button" class="btn btn-sm btn-primary btn-handler" data-id="{{ $survey->id }}" data-handler="{{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal">Approve</button>
+                                                <button type="button" class="btn btn-sm btn-warning" onclick="confirmForm('formSurvey{{ $survey->id }}')">Not Approve</button>
+                                                <form id="formSurvey{{ $survey->id }}" style="display: none;" action="{{ route('not-approve') }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="survey" value="{{ $survey->id }}">
+                                                </form>
+                                            @elseif(Auth::user()->role === 'deployment' && strtolower($survey->handler) == 'deployment')
+                                                <button type="button" class="btn btn-sm btn-info">Estimated Time</button>
+                                                <button type="button" class="btn btn-sm btn-primary btn-handler" onclick="event.preventDefault();
+                                                    document.getElementById('approveFormSurvey{{ $survey->id }}').submit();">
+                                                    Approve
+                                                </button>
+                                                <form id="approveFormSurvey{{ $survey->id }}" style="display: none;" action="{{ route('approve') }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="survey" value="{{ $survey->id }}">
+                                                </form>
+                                                <button type="button" class="btn btn-sm btn-warning" data-id="{{ $survey->id }}" data-handler="Not Approve {{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal" data-action="{{ route('not-approve') }}" data-button="Not Approve">Not Approve</button>
+                                            @elseif(Auth::user()->role === 'manager cs' && strtolower($survey->handler) == 'manager cs')
+                                                <button type="button" class="btn btn-sm btn-primary btn-handler" onclick="event.preventDefault();
+                                                    document.getElementById('approveFormSurvey{{ $survey->id }}').submit();">
+                                                    Approve
+                                                </button>
+                                                <form id="approveFormSurvey{{ $survey->id }}" style="display: none;" action="{{ route('approve') }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="survey" value="{{ $survey->id }}">
+                                                </form>
+                                                <button type="button" class="btn btn-sm btn-warning" data-id="{{ $survey->id }}" data-handler="Not Approve {{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal" data-action="{{ route('not-approve') }}" data-button="Not Approve">Not Approve</button>
+
+                                            @else
+                                                <button type="button" class="btn btn-sm btn-secondary disabled">{{ $survey->handler }}</button>
+                                            @endif
+                                        @else
+                                            <button type="button" class="btn btn-sm btn-success disabled">{{ $survey->status }}</button>
+                                        @endif
+                                        {{-- @if($survey->status !== 'Done')
                                             @if (strtolower($survey->handler) == Auth::user()->role)
                                                 @if($survey->handler == 'Deployment')
                                                     <button type="button" class="btn btn-sm btn-info">Estimated Time</button>
@@ -130,7 +169,7 @@
                                         @else
                                             <button type="button" disabled class="btn btn-sm btn-warning disabled">Not Approve</button>
                                             <button type="button" disabled class="btn btn-sm btn-primary disabled">Approve</button>
-                                        @endif
+                                        @endif --}}
                                     @else
                                         <button type="button" class="btn btn-sm btn-primary btn-handler" data-id="{{ $survey->id }}" data-handler="{{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal">Approve</button>
                                     @endif
@@ -196,6 +235,12 @@ $(document).ready(function() {
 
         var recipient = button.data('handler')
         modal.find('.modal-title').text(`${recipient} Handler`)
+
+        var text = button.data('button')
+        modal.find('.modal-footer button[type="submit"]').text(text)
+
+        var action = button.data('action')
+        modal.find('.modal-content form').attr('action', action)
     });
 
     $('#from').datepicker({
