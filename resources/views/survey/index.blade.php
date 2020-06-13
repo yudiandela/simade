@@ -140,6 +140,30 @@
         </form>
     </div> --}}
 
+    <div class="fab-container">
+        <div class="fab fab-icon-holder">
+            <i class="fas fa-comments"></i>
+        </div>
+        <ul class="fab-options">
+            <li>
+                <a href="https://wa.me/6282121206729" target="_blank">
+                    {{-- <span class="fab-label">Feedback</span> --}}
+                    <div class="fab-icon-holder">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="https://t.me/yudi_andela" target="_blank">
+                    {{-- <span class="fab-label">Feedback</span> --}}
+                    <div class="fab-icon-holder">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <x-script.footer></x-script.footer>
 
     <!-- Live Chat Widget powered by https://keyreply.com/chat/ -->
