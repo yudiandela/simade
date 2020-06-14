@@ -146,7 +146,7 @@
         </div>
         <ul class="fab-options">
             <li>
-                <a href="https://wa.me/6282121206729" target="_blank">
+                <a href="https://wa.me/6282398569858" target="_blank">
                     {{-- <span class="fab-label">Feedback</span> --}}
                     <div class="fab-icon-holder">
                         <i class="fab fa-whatsapp"></i>
@@ -154,7 +154,7 @@
                 </a>
             </li>
             <li>
-                <a href="https://t.me/yudi_andela" target="_blank">
+                <a href="https://t.me/AndriIrawanZ" target="_blank">
                     {{-- <span class="fab-label">Feedback</span> --}}
                     <div class="fab-icon-holder">
                         <i class="fab fa-telegram"></i>
