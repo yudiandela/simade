@@ -53,6 +53,26 @@ h1 {
     -ms-transform: translateY(-50%);
 }
 
+.error-box {
+    border-radius: 10%;
+    width: 350px;
+    background: rgba(255, 255, 255, 0.602);
+    padding: 1px 50px 30px;
+    margin: 0 auto;
+    position: relative;
+    top: 30%;
+    /* left: 50%; */
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+
+.error-box h1 {
+    font-size: 84px;
+    font-weight: bolder;
+    color: #9c1010;
+    text-shadow: 3px 1px 3px #380101;
+}
+
 label {
     font-size: 11pt;
 }
@@ -60,6 +80,10 @@ label {
 .text-error {
     font-size: 12px;
     color: #9c1010;
+}
+
+.text-center {
+    text-align: center;
 }
 
 .login-box > form > .form-group {
