@@ -67,7 +67,7 @@
                 <table class="table table-bordered mt-5">
                     <thead class="bg-danger text-white">
                         <tr>
-                            <th class="align-middle text-center">No</th>
+                            <th class="align-middle text-center">Survey ID</th>
                             <th class="align-middle text-center">Nama</th>
                             <th class="align-middle text-center">No HP</th>
                             <th class="align-middle text-center">Provinsi</th>
@@ -85,7 +85,7 @@
                         @if (count($surveys) > 0)
                             @foreach ($surveys as $survey)
                             <tr>
-                                <td class="align-middle text-center">{{ $loop->iteration }}</td>
+                                <td class="align-middle text-center">{{ $survey->survey_id }}</td>
                                 <td class="align-middle text-left">
                                     <a href="{{ route('inbox.maps') }}?lat={{ $survey->latitude }}&lng={{ $survey->longitude }}">
                                         {{ $survey->name }}
@@ -98,7 +98,9 @@
                                 <td class="align-middle text-center">{{ $survey->price }}</td>
                                 <td class="align-middle text-center">{{ $survey->status }}</td>
                                 <td class="align-middle text-left">
-                                    {{ $survey->handler }} <br> Keterangan : {{ $survey->note ? $survey->note : 'Belum dihandle' }}
+                                    {{ $survey->handler }} <br>
+                                    Keterangan : {{ $survey->note ? $survey->note : 'Belum dihandle' }} <br>
+                                    Estimated Time : {{ $survey->estimated_time ? $survey->estimated_time : '-' }}
                                 </td>
                                 <td class="align-middle text-center">
                                     @if (Auth::user()->role !== 'admin')
@@ -112,7 +114,7 @@
                                                     <input type="hidden" name="survey" value="{{ $survey->id }}">
                                                 </form>
                                             @elseif(Auth::user()->role === 'deployment' && strtolower($survey->handler) == 'deployment')
-                                                <button type="button" class="btn btn-sm btn-info">Estimated Time</button>
+                                                <button type="button" class="btn btn-sm btn-info estimated_time" data-survey-id="{{ $survey->id }}">Estimated Time</button>
                                                 <button type="button" class="btn btn-sm btn-primary btn-handler" onclick="event.preventDefault();
                                                     document.getElementById('approveFormSurvey{{ $survey->id }}').submit();">
                                                     Approve
@@ -141,37 +143,12 @@
                                         @else
                                             <button type="button" class="btn btn-sm btn-success disabled">{{ $survey->status }}</button>
                                         @endif
-                                        {{-- @if($survey->status !== 'Done')
-                                            @if (strtolower($survey->handler) == Auth::user()->role)
-                                                @if($survey->handler == 'Deployment')
-                                                    <button type="button" class="btn btn-sm btn-info">Estimated Time</button>
-                                                @endif
-
-                                                @if($survey->status == 'Cancel')
-                                                    <button type="button" class="btn btn-sm btn-warning disabled">
-                                                        Not Approve
-                                                    </button>
-                                                @else
-                                                    <button type="button" class="btn btn-sm btn-warning" onclick="confirmForm('formSurvey{{ $survey->id }}')">
-                                                        Not Approve
-                                                    </button>
-                                                    <form id="formSurvey{{ $survey->id }}" style="display: none;" action="{{ route('not-approve') }}" method="POST">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <input type="hidden" name="survey" value="{{ $survey->id }}">
-                                                    </form>
-                                                @endif
-                                                <button type="button" class="btn btn-sm btn-primary btn-handler" data-id="{{ $survey->id }}" data-handler="{{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal">Approve</button>
-                                            @else
-                                                <button type="button" disabled class="btn btn-sm btn-warning disabled">Not Approve</button>
-                                                <button type="button" disabled class="btn btn-sm btn-primary disabled">Approve</button>
-                                            @endif
-                                        @else
-                                            <button type="button" disabled class="btn btn-sm btn-warning disabled">Not Approve</button>
-                                            <button type="button" disabled class="btn btn-sm btn-primary disabled">Approve</button>
-                                        @endif --}}
                                     @else
-                                        <button type="button" class="btn btn-sm btn-primary btn-handler" data-id="{{ $survey->id }}" data-handler="{{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal">Approve</button>
+                                        <button type="button" class="btn btn-sm btn-secondary btn-handler">{{ $survey->handler }}</button>
+                                    @endif
+
+                                    @if (Auth::user()->role !== 'deployment')
+                                        <a href="{{ route('survey.edit', $survey->id) }}" class="btn btn-danger btn-sm">Edit</a>
                                     @endif
                                 </td>
                             </tr>
@@ -181,6 +158,11 @@
                         @endif
                     </tbody>
                 </table>
+
+                {{ $surveys->links() }}
+
+                <div id="datepicker" style="display: none;" ></div>
+
             </div>
         </div>
     </div>
@@ -240,8 +222,46 @@ $(document).ready(function() {
         modal.find('.modal-footer button[type="submit"]').text(text)
 
         var action = button.data('action')
-        modal.find('.modal-content form').attr('action', action)
+        modal.find('.modal-content form').attr('action', action);
     });
+
+    var survey_id = 1;
+    $('.estimated_time').click(function() {
+        survey_id = $(this).data('survey-id');
+        $datepicker.open({'survey_id': survey_id});
+    });
+
+    var $datepicker = $('#datepicker').datepicker({
+        showRightIcon: false,
+        modal: true,
+        header: true,
+        format: 'yyyy-mm-dd',
+        change: function (e) {
+            var url = "{{ route('survey.updateTime', ':survey_id') }}";
+            url = url.replace(":survey_id", survey_id);
+            postData(url, 'PUT', {
+                'estimated_time' : $datepicker.value()
+            });
+        }
+    });
+
+    async function postData(url, method, data) {
+        await fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+            location.reload(true);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
 
     $('#from').datepicker({
         uiLibrary: 'bootstrap4',

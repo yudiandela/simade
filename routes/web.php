@@ -15,10 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/SurveyPelanggan2020', 'survey.index')->name('survey.index');
-Route::post('/survey', 'SurveyController')->name('survey.store');
+
+Route::post('/survey', 'SurveyController@store')->name('survey.store');
+Route::get('/survey/{survey}', 'SurveyController@edit')->name('survey.edit');
+Route::put('/survey/{survey}', 'SurveyController@update')->name('survey.update');
+Route::put('/survey/{survey}/updatetime', 'SurveyController@updateTime')->name('survey.updateTime');
+
 Route::view('/thanks', 'survey.thanks')->name('survey.thanks');
 
-Auth::routes(['register' => false]);
+Auth::routes();
 Route::get('/', 'DashboardController@index')->name('dashboard');
 Route::get('/table', 'DashboardController@getTable')->name('dashboard.table');
 Route::get('/inbox-maps', 'DashboardController@maps')->name('inbox.maps');
