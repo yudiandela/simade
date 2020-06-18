@@ -109,14 +109,14 @@
                                     (Aktifkan GPS) Geser pin pada koordinat anda.
                                 </label>
                                 <div class="col-sm-12">
+                                </div>
                                     <div id="googleMap" style="width:100%;height:380px;"></div>
                                     <input id="lat" type="hidden" name="latitude">
                                     <input id="lng" type="hidden" name="longitude">
-                                    <input id="pos" type="hidden" name="position">
-                                </div>
+                                    {{-- <input id="pos" type="text" name="position"> --}}
                             </div>
 
-                            <button type="submit" class="btn btn-block btn-primary btn-lg">
+                            <button id="submitBtn" type="submit" disabled="disabled" class="btn btn-block btn-secondary btn-lg">
                                 Submit Data
                             </button>
                         </form>
@@ -183,6 +183,27 @@
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap"></script>
     <script>
+    (function() {
+        $('input.form-control').keyup(function() {
+            var empty = false;
+            $('form > div > div > input').each(function() {
+                if ($(this).val() == '') {
+                    empty = true;
+                }
+            });
+
+            if (empty) {
+                $('#submitBtn').attr('disabled', 'disabled');
+                $('#submitBtn').removeClass('btn-primary');
+                $('#submitBtn').addClass('btn-secondary');
+            } else {
+                $('#submitBtn').removeAttr('disabled');
+                $('#submitBtn').removeClass('btn-secondary');
+                $('#submitBtn').addClass('btn-primary');
+            }
+        });
+    })()
+
     $("#open-chat").click( function() {
         $("#myForm").css("display", "block");
     });

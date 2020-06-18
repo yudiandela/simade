@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Survey;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -32,10 +33,9 @@ class SurveyController extends Controller
             $price_to = $price[1];
         }
 
-        $survey_id = Str::random(6);
+        $survey_id = Carbon::now()->format('dmY') . '/SID';
 
-        Survey::create([
-            'survey_id' => $survey_id,
+        $survey = Survey::create([
             'name' => $request->name,
             'address' => $request->address,
             'province' => trim($this->last($address, 2)),
@@ -47,6 +47,17 @@ class SurveyController extends Controller
             'price_to' => (int) $price_to,
             'latitude' => (float) $request->latitude,
             'longitude' => (float) $request->longitude
+        ]);
+
+        $id = $survey->id;
+        if (strlen($id) == 1) {
+            $id = 00 . $survey->id;
+        } elseif (strlen($id) == 2) {
+            $id = 0 . $survey->id;
+        }
+
+        $survey->update([
+            'survey_id' => $survey_id . $id,
         ]);
 
         return redirect()->route('survey.thanks')->with('status', 'Terima kasih telah memberikan tanggapan anda');
