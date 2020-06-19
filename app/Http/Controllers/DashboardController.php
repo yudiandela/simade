@@ -185,9 +185,9 @@ class DashboardController extends Controller
                     <td class="align-middle text-center">' . $survey->survey_id . '</td>
                     <td class="align-middle text-left"><a href="' . route('inbox.maps') . '?lat=' . $survey->latitude . '&lng=' . $survey->longitude . '">' . $survey->name . '</a></td>
                     <td class="align-middle text-center">' . $survey->phone . '</td>
-                    <td class="align-middle text-center">' . rtrim(preg_replace('/\d/', '', $survey->province)) . '</td>
-                    <td class="align-middle text-center">' . $survey->districts . '</td>
-                    <td class="align-middle text-center">' . $survey->sub_district . '</td>
+                    <td class="align-middle text-center">' . Str::title(rtrim(preg_replace('/\d/', '', $survey->province))) . '</td>
+                    <td class="align-middle text-center">' . Str::title($survey->districts) . '</td>
+                    <td class="align-middle text-center">' . Str::title($survey->sub_district) . '</td>
                     <td class="align-middle text-center">' . $survey->price . '</td>
                     <td class="align-middle text-center">' . $survey->status . '</td>
                     <td class="align-middle text-left">
