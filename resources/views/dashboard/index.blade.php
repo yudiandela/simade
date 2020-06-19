@@ -16,7 +16,7 @@
             </div>
             <div class="col">
                 <label for="">Kota</label>
-                <select id="city" name="city" class="form-control getData"></select>
+                <select id="districts" name="districts" class="form-control getData"></select>
             </div>
             <div class="col">
                 <label for="">Range Harga</label>
@@ -279,23 +279,22 @@ $(document).ready(function() {
     var endPoint = "{{ route('dashboard.newtable') }}";
     var apiUrl = "{{ route('data.api') }}";
     var province = $('#province');
-    var city = $('#city');
-
+    var districts = $('#districts');
 
     async function getDataApi(url, id) {
-        $(`${id}`).html('<option value="all">Loading...</option>');
+        id.html('<option value="all">Loading...</option>');
         return await fetch(`${url}`)
             .then( res => res.json())
-            .then( data => $(`${id}`).html(data))
+            .then( data => id.html(data))
             .catch( error => console.error(error));
     }
 
-    getDataApi(`${apiUrl}?get=province`, "#province");
-    getDataApi(`${apiUrl}?get=city`, "#city");
+    getDataApi(`${apiUrl}?get=province`, province);
+    getDataApi(`${apiUrl}?get=districts&province=${province.val()}`, districts);
 
     async function loadData(url) {
         $('#showData').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
-        return await fetch(`${url}?province=${province.val()}&city=${city.val()}`)
+        return await fetch(`${url}?province=${province.val()}&districts=${districts.val()}`)
             .then( res => res.json())
             .then( data => $('#showData').html(data))
             .catch( error => console.error(error));
@@ -316,6 +315,10 @@ $(document).ready(function() {
             .then( data => $('#showData').html(data))
             .catch( error => console.error(error));
     }
+
+    province.change(function() {
+        getDataApi(`${apiUrl}?get=districts&province=${province.val()}`, districts);
+    });
 
     $(".getData").change(function() {
         loadData(endPoint);

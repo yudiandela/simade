@@ -152,6 +152,10 @@ class DashboardController extends Controller
             $surveys->where("province", "LIKE", "%$province%");
         }
 
+        if (!is_null($city) and $city != 'all') {
+            $surveys->where("districts", "LIKE", "%$city%");
+        }
+
         // if (!is_null($witel) and $witel != 'all') {
         //     $surveys->where("witel", $witel);
         // }
@@ -202,7 +206,13 @@ class DashboardController extends Controller
     public function getDataApi(Request $request)
     {
         $param = $request->get;
-        $surveys = Survey::select('*')->get();
+        $surveys = Survey::select('*');
+
+        if ($request->province) {
+            $surveys->where('province', 'LIKE', "%$request->province%");
+        }
+
+        $surveys = $surveys->get();
         $unique = $surveys->sortBy($param)->unique(function ($item) use ($param) {
             return preg_replace('/\d/', '', $item[$param]);
         });
