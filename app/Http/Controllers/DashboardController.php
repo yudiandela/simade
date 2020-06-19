@@ -217,14 +217,14 @@ class DashboardController extends Controller
 
         $surveys = $surveys->get();
         $unique = $surveys->sortBy($param)->unique(function ($item) use ($param) {
-            return preg_replace('/\d/', '', $item[$param]);
+            return strtolower(preg_replace('/\d/', '', $item[$param]));
         });
 
         $surveys = $unique->values()->all();
 
         $data = ['<option value="all">Semua</option>'];
         foreach ($surveys as $survey) {
-            $data[] = '<option value="' . rtrim(preg_replace('/\d/', '', $survey->$param)) . '">' . rtrim(preg_replace('/\d/', '', $survey->$param)) . '</option>';
+            $data[] = '<option value="' . strtolower(rtrim(preg_replace('/\d/', '', $survey->$param))) . '">' . Str::title(rtrim(preg_replace('/\d/', '', $survey->$param))) . '</option>';
         }
 
         return $data;
