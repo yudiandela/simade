@@ -8,40 +8,36 @@
                 {{ session('status') }}
             </div>
         @endif
-        {{-- <div class="row">
+
+        <div class="row">
             <div class="col">
-                <label for="">Regional</label>
-                <select id="regional" name="regional" class="form-control getData">
-                    <option value="all">ALL TREG</option>
-                    <option value="treg-7">TREG 7</option>
-                </select>
+                <label for="">Provinsi</label>
+                <select id="province" name="province" class="form-control getData"></select>
             </div>
             <div class="col">
-                <label for="">Witel</label>
-                <select id="witel" name="witel" class="form-control getData">
-                    <option value="all">All</option>
-                    <option value="sulut-malut">Sulut Malut</option>
-                    <option value="papua">Papua</option>
-                </select>
+                <label for="">Kota</label>
+                <select id="city" name="city" class="form-control getData"></select>
             </div>
             <div class="col">
-                <label for="">Mode</label>
-                <select id="mode" name="mode" class="form-control getData">
-                    <option value="all">All</option>
-                    <option value="datel">DATEL</option>
-                    <option value="sto">STO</option>
+                <label for="">Range Harga</label>
+                <select id="price" name="price" class="form-control getData">
+                    <option value="all">Semua</option>
+                    <option value="300,500">300 rb - 500 rb</option>
+                    <option value="500,700">500 rb - 700 rb</option>
+                    <option value="700,1000">700 rb - 1 juta</option>
+                    <option value="1000">> 1 juta</option>
                 </select>
             </div>
             <div class="col">
                 <label for="">Status</label>
                 <select id="status" name="status" class="form-control getData">
-                    <option value="all">All</option>
-                    <option value="issued">Issued</option>
-                    <option value="verificated">Verificated</option>
-                    <option value="approved">Approved</option>
+                    <option value="all">Semua</option>
+                    <option value="On Progress">On Progress</option>
+                    <option value="Done">Done</option>
+                    <option value="Cancel">Cancel</option>
                 </select>
             </div>
-            <div class="col">
+            {{-- <div class="col">
                 <label for="">Task Owner</label>
                 <select id="task" name="task_owner" class="form-control getData">
                     <option value="all">All</option>
@@ -57,11 +53,12 @@
             <div class="col">
                 <label for="">To</label>
                 <input id="to" name="to" class="datepicker form-control getData" />
-            </div>
+            </div> --}}
             <div class="col-md-1 d-flex align-items-end">
                 <button id="resetBtn" class="btn btn-primary flex-fill">Reset</button>
             </div>
-        </div> --}}
+        </div>
+
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <table class="table table-bordered mt-5">
@@ -76,12 +73,12 @@
                             <th class="align-middle text-center">Range Harga</th>
                             <th class="align-middle text-center">Status</th>
                             <th class="align-middle text-center">Handler</th>
-                            <th class="align-middle text-center"></th>
+                            {{-- <th class="align-middle text-center"></th> --}}
                         </tr>
                     </thead>
 
-                    {{-- <tbody id="showData"></tbody> --}}
-                    <tbody>
+                    <tbody id="showData"></tbody>
+                    {{-- <tbody>
                         @if (count($surveys) > 0)
                             @foreach ($surveys as $survey)
                             <tr>
@@ -156,7 +153,7 @@
                         @else
                             <tr><td colspan="9" class="text-center">No Data</td></tr>
                         @endif
-                    </tbody>
+                    </tbody> --}}
                 </table>
 
                 {{ $surveys->links() }}
@@ -279,18 +276,26 @@ $(document).ready(function() {
         }
     });
 
-    var endPoint = `{{ route('dashboard.table') }}`;
-    var regional = $('#regional');
-    var witel    = $('#witel');
-    var mode     = $('#mode');
-    var status   = $('#status');
-    var task     = $('#task');
-    var from     = $('#from');
-    var to       = $('#to');
+    var endPoint = "{{ route('dashboard.newtable') }}";
+    var apiUrl = "{{ route('data.api') }}";
+    var province = $('#province');
+    var city = $('#city');
+
+
+    async function getDataApi(url, id) {
+        $(`${id}`).html('<option value="all">Loading...</option>');
+        return await fetch(`${url}`)
+            .then( res => res.json())
+            .then( data => $(`${id}`).html(data))
+            .catch( error => console.error(error));
+    }
+
+    getDataApi(`${apiUrl}?get=province`, "#province");
+    getDataApi(`${apiUrl}?get=city`, "#city");
 
     async function loadData(url) {
         $('#showData').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
-        return await fetch(`${url}?regional=${regional.val()}&witel=${witel.val()}&mode=${mode.val()}&status=${status.val()}&task=${task.val()}&from=${from.val()}&to=${to.val()}`)
+        return await fetch(`${url}?province=${province.val()}&city=${city.val()}`)
             .then( res => res.json())
             .then( data => $('#showData').html(data))
             .catch( error => console.error(error));

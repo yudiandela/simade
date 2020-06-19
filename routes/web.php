@@ -31,4 +31,6 @@ Route::get('/my-tasks', 'DashboardController@myTask')->name('mytask');
 Route::patch('/approve', 'DashboardController@approve')->name('approve');
 Route::patch('/not-approve', 'DashboardController@not_approve')->name('not-approve');
 
+Route::get('/new-table', 'DashboardController@getNewTable')->name('dashboard.newtable');
+Route::get('/data-api', 'DashboardController@getDataApi')->name('data.api');
 // Route::get('/import', 'ImportController');

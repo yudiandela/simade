@@ -140,6 +140,83 @@ class DashboardController extends Controller
         return $data;
     }
 
+    public function getNewTable(Request $request)
+    {
+        $province = $request->province;
+        $city = $request->districts;
+        $price = $request->price;
+        $status = $request->status;
+
+        $surveys = Survey::query();
+        if (!is_null($province) and $province != 'all') {
+            $surveys->where("province", "LIKE", "%$province%");
+        }
+
+        // if (!is_null($witel) and $witel != 'all') {
+        //     $surveys->where("witel", $witel);
+        // }
+        // if (!is_null($mode) and $mode != 'all') {
+        //     $surveys->where("mode", $mode);
+        // }
+        // if (!is_null($status) and $status != 'all') {
+        //     $surveys->where("status", $status);
+        // }
+        // if (!is_null($task_owner) and $task_owner != 'all') {
+        //     $surveys->where("task_owner", $task_owner);
+        // }
+
+        // if (!is_null($from)) {
+        //     $surveys->whereBetween("created_at", [$from, $to]);
+        // }
+
+        $surveys = $surveys->get();
+
+        $data = [];
+        foreach ($surveys as $survey) {
+            $data[] = '
+                <tr>
+                    <td class="align-middle text-center">' . $survey->survey_id . '</td>
+                    <td class="align-middle text-left"><a href="' . route('inbox.maps') . '?lat=' . $survey->latitude . '&lng=' . $survey->longitude . '">' . $survey->name . '</a></td>
+                    <td class="align-middle text-center">' . $survey->phone . '</td>
+                    <td class="align-middle text-left">' . $survey->province . '</td>
+                    <td class="align-middle text-center">' . $survey->districts . '</td>
+                    <td class="align-middle text-left">' . $survey->sub_district . '</td>
+                    <td class="align-middle text-center">' . $survey->price . '</td>
+                    <td class="align-middle text-center">' . $survey->status . '</td>
+                    <td class="align-middle text-left">
+                        ' . $survey->handler . ' <br>
+                        Keterangan : ' . $survey->note . ' <br>
+                        Estimated Time : ' . $survey->estimated_time ?: " - " . '
+                    </td>
+                </tr>
+            ';
+        }
+
+        if (count($data) == 0) {
+            $data[] = '<tr><td colspan="9" class="text-center">No Data</td></tr>';
+        }
+
+        return $data;
+    }
+
+    public function getDataApi(Request $request)
+    {
+        $param = $request->get;
+        $surveys = Survey::select('*')->get();
+        $unique = $surveys->sortBy($param)->unique(function ($item) use ($param) {
+            return preg_replace('/\d/', '', $item[$param]);
+        });
+
+        $surveys = $unique->values()->all();
+
+        $data = ['<option value="all">Semua</option>'];
+        foreach ($surveys as $survey) {
+            $data[] = '<option value="' . rtrim(preg_replace('/\d/', '', $survey->$param)) . '">' . rtrim(preg_replace('/\d/', '', $survey->$param)) . '</option>';
+        }
+
+        return $data;
+    }
+
     public function maps(Request $request)
     {
         $surveys = Survey::all();
