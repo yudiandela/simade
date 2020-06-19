@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    protected $paginate = 5;
+
     /**
      * Create a new controller instance.
      *
@@ -25,7 +27,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $surveys = Survey::paginate(20);
+        $surveys = Survey::paginate($this->paginate);
         return view('dashboard.index', compact('surveys'));
     }
 
@@ -176,7 +178,7 @@ class DashboardController extends Controller
             ]);
         }
 
-        $surveys = $surveys->get();
+        $surveys = $surveys->latest()->paginate($this->paginate);
 
         $data = [];
         foreach ($surveys as $survey) {
