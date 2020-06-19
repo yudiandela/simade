@@ -28,7 +28,11 @@ class DashboardController extends Controller
     public function index()
     {
         $surveys = Survey::paginate($this->paginate);
-        return view('dashboard.index', compact('surveys'));
+        $new = Survey::where('status', 'New')->count();
+        $onProgress = Survey::where('status', 'On Progress')->count();
+        $done = Survey::where('status', 'Done')->count();
+        $cancel = Survey::where('status', 'Cancel')->count();
+        return view('dashboard.index', compact('surveys', 'new', 'onProgress', 'done', 'cancel'));
     }
 
     public function approve(Request $request)

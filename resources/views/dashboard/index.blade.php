@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-5">
+<div class="px-5">
     <div class="container-fluid">
         @if (session('status'))
             <div class="alert alert-success text-center">
@@ -9,154 +9,200 @@
             </div>
         @endif
 
-        <div class="row">
+        <div class="row mb-4">
             <div class="col">
-                <label for="province">Provinsi</label>
-                <select id="province" name="province" class="form-control getData"></select>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>New</h4>
+                        <h4>{{ $new }}</h4>
+                    </div>
+                </div>
             </div>
+
             <div class="col">
-                <label for="districts">Kota</label>
-                <select id="districts" name="districts" class="form-control getData"></select>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>On Progress</h4>
+                        <h4>{{ $onProgress }}</h4>
+                    </div>
+                </div>
             </div>
+
             <div class="col">
-                <label for="price">Range Harga</label>
-                <select id="price" name="price" class="form-control getData">
-                    <option value="all">Semua</option>
-                    <option value="300,500">300 rb - 500 rb</option>
-                    <option value="500,700">500 rb - 700 rb</option>
-                    <option value="700,1000">700 rb - 1 juta</option>
-                    <option value="1000">> 1 juta</option>
-                </select>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Done</h4>
+                        <h4>{{ $done }}</h4>
+                    </div>
+                </div>
             </div>
+
             <div class="col">
-                <label for="">Status</label>
-                <select id="status" name="status" class="form-control getData">
-                    <option value="all">Semua</option>
-                    <option value="On Progress">On Progress</option>
-                    <option value="Done">Done</option>
-                    <option value="Cancel">Cancel</option>
-                </select>
-            </div>
-            {{-- <div class="col">
-                <label for="">Task Owner</label>
-                <select id="task" name="task_owner" class="form-control getData">
-                    <option value="all">All</option>
-                    <option value="verificator">Verificator</option>
-                    <option value="approver">Approver</option>
-                    <option value="deployment">Deployment</option>
-                </select>
-            </div>
-            <div class="col">
-                <label for="">From</label>
-                <input id="from" name="from" class="datepicker form-control getData" />
-            </div>
-            <div class="col">
-                <label for="">To</label>
-                <input id="to" name="to" class="datepicker form-control getData" />
-            </div> --}}
-            <div class="col-md-1 d-flex align-items-end">
-                <button id="resetBtn" class="btn btn-primary flex-fill">Reset</button>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Cancel</h4>
+                        <h4>{{ $cancel }}</h4>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <table class="table table-bordered mt-5">
-                    <thead class="bg-danger text-white">
-                        <tr>
-                            <th class="align-middle text-center">Survey ID</th>
-                            <th class="align-middle text-center">Nama</th>
-                            <th class="align-middle text-center">No HP</th>
-                            <th class="align-middle text-center">Provinsi</th>
-                            <th class="align-middle text-center">Kota</th>
-                            <th class="align-middle text-center">Kecamatan</th>
-                            <th class="align-middle text-center">Range Harga</th>
-                            <th class="align-middle text-center">Status</th>
-                            <th class="align-middle text-center">Handler</th>
-                            {{-- <th class="align-middle text-center"></th> --}}
-                        </tr>
-                    </thead>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label for="province">Provinsi</label>
+                        <select id="province" name="province" class="form-control getData"></select>
+                    </div>
+                    <div class="col">
+                        <label for="districts">Kota</label>
+                        <select id="districts" name="districts" class="form-control getData"></select>
+                    </div>
+                    <div class="col">
+                        <label for="price">Range Harga</label>
+                        <select id="price" name="price" class="form-control getData">
+                            <option value="all">Semua</option>
+                            <option value="300,500">300 rb - 500 rb</option>
+                            <option value="500,700">500 rb - 700 rb</option>
+                            <option value="700,1000">700 rb - 1 juta</option>
+                            <option value="1000">> 1 juta</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="">Status</label>
+                        <select id="status" name="status" class="form-control getData">
+                            <option value="all">Semua</option>
+                            <option value="On Progress">On Progress</option>
+                            <option value="Done">Done</option>
+                            <option value="Cancel">Cancel</option>
+                        </select>
+                    </div>
+                    {{-- <div class="col">
+                        <label for="">Task Owner</label>
+                        <select id="task" name="task_owner" class="form-control getData">
+                            <option value="all">All</option>
+                            <option value="verificator">Verificator</option>
+                            <option value="approver">Approver</option>
+                            <option value="deployment">Deployment</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="">From</label>
+                        <input id="from" name="from" class="datepicker form-control getData" />
+                    </div>
+                    <div class="col">
+                        <label for="">To</label>
+                        <input id="to" name="to" class="datepicker form-control getData" />
+                    </div> --}}
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button id="resetBtn" class="btn btn-primary flex-fill">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <tbody id="showData"></tbody>
-                    {{-- <tbody>
-                        @if (count($surveys) > 0)
-                            @foreach ($surveys as $survey)
-                            <tr>
-                                <td class="align-middle text-center">{{ $survey->survey_id }}</td>
-                                <td class="align-middle text-left">
-                                    <a href="{{ route('inbox.maps') }}?lat={{ $survey->latitude }}&lng={{ $survey->longitude }}">
-                                        {{ $survey->name }}
-                                    </a>
-                                </td>
-                                <td class="align-middle text-center">{{ $survey->phone }}</td>
-                                <td class="align-middle text-left">{{ $survey->province }}</td>
-                                <td class="align-middle text-left">{{ $survey->districts }}</td>
-                                <td class="align-middle text-left">{{ $survey->sub_district }}</td>
-                                <td class="align-middle text-center">{{ $survey->price }}</td>
-                                <td class="align-middle text-center">{{ $survey->status }}</td>
-                                <td class="align-middle text-left">
-                                    {{ $survey->handler }} <br>
-                                    Keterangan : {{ $survey->note ? $survey->note : 'Belum dihandle' }} <br>
-                                    Estimated Time : {{ $survey->estimated_time ? $survey->estimated_time : '-' }}
-                                </td>
-                                <td class="align-middle text-center">
-                                    @if (Auth::user()->role !== 'admin')
-                                        @if(strtolower($survey->status) !== 'done')
-                                            @if(Auth::user()->role === 'verificator' && strtolower($survey->handler) == 'verificator')
-                                                <button type="button" class="btn btn-sm btn-primary btn-handler" data-id="{{ $survey->id }}" data-handler="{{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal">Approve</button>
-                                                <button type="button" class="btn btn-sm btn-warning" onclick="confirmForm('formSurvey{{ $survey->id }}')">Not Approve</button>
-                                                <form id="formSurvey{{ $survey->id }}" style="display: none;" action="{{ route('not-approve') }}" method="POST">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <input type="hidden" name="survey" value="{{ $survey->id }}">
-                                                </form>
-                                            @elseif(Auth::user()->role === 'deployment' && strtolower($survey->handler) == 'deployment')
-                                                <button type="button" class="btn btn-sm btn-info estimated_time" data-survey-id="{{ $survey->id }}">Estimated Time</button>
-                                                <button type="button" class="btn btn-sm btn-primary btn-handler" onclick="event.preventDefault();
-                                                    document.getElementById('approveFormSurvey{{ $survey->id }}').submit();">
-                                                    Approve
-                                                </button>
-                                                <form id="approveFormSurvey{{ $survey->id }}" style="display: none;" action="{{ route('approve') }}" method="POST">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <input type="hidden" name="survey" value="{{ $survey->id }}">
-                                                </form>
-                                                <button type="button" class="btn btn-sm btn-warning" data-id="{{ $survey->id }}" data-handler="Not Approve {{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal" data-action="{{ route('not-approve') }}" data-button="Not Approve">Not Approve</button>
-                                            @elseif(Auth::user()->role === 'manager cs' && strtolower($survey->handler) == 'manager cs')
-                                                <button type="button" class="btn btn-sm btn-primary btn-handler" onclick="event.preventDefault();
-                                                    document.getElementById('approveFormSurvey{{ $survey->id }}').submit();">
-                                                    Approve
-                                                </button>
-                                                <form id="approveFormSurvey{{ $survey->id }}" style="display: none;" action="{{ route('approve') }}" method="POST">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <input type="hidden" name="survey" value="{{ $survey->id }}">
-                                                </form>
-                                                <button type="button" class="btn btn-sm btn-warning" data-id="{{ $survey->id }}" data-handler="Not Approve {{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal" data-action="{{ route('not-approve') }}" data-button="Not Approve">Not Approve</button>
+        <div class="row justify-content-center mt-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead class="bg-danger text-white">
+                                <tr>
+                                    <th class="align-middle text-center">Survey ID</th>
+                                    <th class="align-middle text-center">Nama</th>
+                                    <th class="align-middle text-center">No HP</th>
+                                    <th class="align-middle text-center">Provinsi</th>
+                                    <th class="align-middle text-center">Kota</th>
+                                    <th class="align-middle text-center">Kecamatan</th>
+                                    <th class="align-middle text-center">Range Harga</th>
+                                    <th class="align-middle text-center">Status</th>
+                                    <th class="align-middle text-center">Handler</th>
+                                    {{-- <th class="align-middle text-center"></th> --}}
+                                </tr>
+                            </thead>
 
+                            <tbody id="showData"></tbody>
+                            {{-- <tbody>
+                                @if (count($surveys) > 0)
+                                    @foreach ($surveys as $survey)
+                                    <tr>
+                                        <td class="align-middle text-center">{{ $survey->survey_id }}</td>
+                                        <td class="align-middle text-left">
+                                            <a href="{{ route('inbox.maps') }}?lat={{ $survey->latitude }}&lng={{ $survey->longitude }}">
+                                                {{ $survey->name }}
+                                            </a>
+                                        </td>
+                                        <td class="align-middle text-center">{{ $survey->phone }}</td>
+                                        <td class="align-middle text-left">{{ $survey->province }}</td>
+                                        <td class="align-middle text-left">{{ $survey->districts }}</td>
+                                        <td class="align-middle text-left">{{ $survey->sub_district }}</td>
+                                        <td class="align-middle text-center">{{ $survey->price }}</td>
+                                        <td class="align-middle text-center">{{ $survey->status }}</td>
+                                        <td class="align-middle text-left">
+                                            {{ $survey->handler }} <br>
+                                            Keterangan : {{ $survey->note ? $survey->note : 'Belum dihandle' }} <br>
+                                            Estimated Time : {{ $survey->estimated_time ? $survey->estimated_time : '-' }}
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @if (Auth::user()->role !== 'admin')
+                                                @if(strtolower($survey->status) !== 'done')
+                                                    @if(Auth::user()->role === 'verificator' && strtolower($survey->handler) == 'verificator')
+                                                        <button type="button" class="btn btn-sm btn-primary btn-handler" data-id="{{ $survey->id }}" data-handler="{{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal">Approve</button>
+                                                        <button type="button" class="btn btn-sm btn-warning" onclick="confirmForm('formSurvey{{ $survey->id }}')">Not Approve</button>
+                                                        <form id="formSurvey{{ $survey->id }}" style="display: none;" action="{{ route('not-approve') }}" method="POST">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <input type="hidden" name="survey" value="{{ $survey->id }}">
+                                                        </form>
+                                                    @elseif(Auth::user()->role === 'deployment' && strtolower($survey->handler) == 'deployment')
+                                                        <button type="button" class="btn btn-sm btn-info estimated_time" data-survey-id="{{ $survey->id }}">Estimated Time</button>
+                                                        <button type="button" class="btn btn-sm btn-primary btn-handler" onclick="event.preventDefault();
+                                                            document.getElementById('approveFormSurvey{{ $survey->id }}').submit();">
+                                                            Approve
+                                                        </button>
+                                                        <form id="approveFormSurvey{{ $survey->id }}" style="display: none;" action="{{ route('approve') }}" method="POST">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <input type="hidden" name="survey" value="{{ $survey->id }}">
+                                                        </form>
+                                                        <button type="button" class="btn btn-sm btn-warning" data-id="{{ $survey->id }}" data-handler="Not Approve {{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal" data-action="{{ route('not-approve') }}" data-button="Not Approve">Not Approve</button>
+                                                    @elseif(Auth::user()->role === 'manager cs' && strtolower($survey->handler) == 'manager cs')
+                                                        <button type="button" class="btn btn-sm btn-primary btn-handler" onclick="event.preventDefault();
+                                                            document.getElementById('approveFormSurvey{{ $survey->id }}').submit();">
+                                                            Approve
+                                                        </button>
+                                                        <form id="approveFormSurvey{{ $survey->id }}" style="display: none;" action="{{ route('approve') }}" method="POST">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <input type="hidden" name="survey" value="{{ $survey->id }}">
+                                                        </form>
+                                                        <button type="button" class="btn btn-sm btn-warning" data-id="{{ $survey->id }}" data-handler="Not Approve {{ $survey->handler }}" data-toggle="modal" data-target="#handlerModal" data-action="{{ route('not-approve') }}" data-button="Not Approve">Not Approve</button>
+
+                                                    @else
+                                                        <button type="button" class="btn btn-sm btn-secondary disabled">{{ $survey->handler }}</button>
+                                                    @endif
+                                                @else
+                                                    <button type="button" class="btn btn-sm btn-success disabled">{{ $survey->status }}</button>
+                                                @endif
                                             @else
-                                                <button type="button" class="btn btn-sm btn-secondary disabled">{{ $survey->handler }}</button>
+                                                <button type="button" class="btn btn-sm btn-secondary btn-handler">{{ $survey->handler }}</button>
                                             @endif
-                                        @else
-                                            <button type="button" class="btn btn-sm btn-success disabled">{{ $survey->status }}</button>
-                                        @endif
-                                    @else
-                                        <button type="button" class="btn btn-sm btn-secondary btn-handler">{{ $survey->handler }}</button>
-                                    @endif
 
-                                    @if (Auth::user()->role !== 'deployment')
-                                        <a href="{{ route('survey.edit', $survey->id) }}" class="btn btn-danger btn-sm">Edit</a>
-                                    @endif
-                                </td>
-                            </tr>
-                            @endforeach
-                        @else
-                            <tr><td colspan="9" class="text-center">No Data</td></tr>
-                        @endif
-                    </tbody> --}}
-                </table>
+                                            @if (Auth::user()->role !== 'deployment')
+                                                <a href="{{ route('survey.edit', $survey->id) }}" class="btn btn-danger btn-sm">Edit</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @else
+                                    <tr><td colspan="9" class="text-center">No Data</td></tr>
+                                @endif
+                            </tbody> --}}
+                        </table>
 
-                {{ $surveys->links('components.pagination') }}
+                        {{ $surveys->links('components.pagination') }}
+                    </div>
+                </div>
 
                 <div id="datepicker" style="display: none;" ></div>
 
