@@ -11,15 +11,15 @@
 
         <div class="row">
             <div class="col">
-                <label for="">Provinsi</label>
+                <label for="province">Provinsi</label>
                 <select id="province" name="province" class="form-control getData"></select>
             </div>
             <div class="col">
-                <label for="">Kota</label>
+                <label for="districts">Kota</label>
                 <select id="districts" name="districts" class="form-control getData"></select>
             </div>
             <div class="col">
-                <label for="">Range Harga</label>
+                <label for="price">Range Harga</label>
                 <select id="price" name="price" class="form-control getData">
                     <option value="all">Semua</option>
                     <option value="300,500">300 rb - 500 rb</option>
@@ -280,6 +280,8 @@ $(document).ready(function() {
     var apiUrl = "{{ route('data.api') }}";
     var province = $('#province');
     var districts = $('#districts');
+    var price = $('#price');
+    var status = $('#status');
 
     async function getDataApi(url, id) {
         id.html('<option value="all">Loading...</option>');
@@ -294,23 +296,20 @@ $(document).ready(function() {
 
     async function loadData(url) {
         $('#showData').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
-        return await fetch(`${url}?province=${province.val()}&districts=${districts.val()}`)
+        return await fetch(`${url}?province=${province.val()}&districts=${districts.val()}&price=${price.val()}&status=${status.val()}`)
             .then( res => res.json())
             .then( data => $('#showData').html(data))
             .catch( error => console.error(error));
     }
 
     async function resetData(url) {
-        regional.val('all');
-        witel.val('all');
-        mode.val('all');
+        province.val('all');
+        price.val('all');
         status.val('all');
-        task.val('all');
-        from.val(null);
-        to.val(null);
 
+        getDataApi(`${apiUrl}?get=districts&province=${province.val()}`, districts);
         $('#showData').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
-        return await fetch(`${url}?regional=all&witel=all&mode=all&status=all&task=all&from=&to=`)
+        return await fetch(`${url}?province=${province.val()}&districts=${districts.val()}&price=${price.val()}&status=${status.val()}`)
             .then( res => res.json())
             .then( data => $('#showData').html(data))
             .catch( error => console.error(error));
