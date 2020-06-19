@@ -224,6 +224,7 @@
 
                 geocoder = new google.maps.Geocoder;
                 geocoder.geocode({'location': pos}, function(results, status) {
+                    console.log(status)
                     if (status === 'OK') {
                         if (results[0]) {
                             $('#address').val(results[0].formatted_address);
@@ -267,27 +268,29 @@
                                 $('#address').val(results[0].formatted_address);
                                 $('#textAddress').val(results[0].formatted_address);
                             } else {
-                                window.alert('No results found');
+                                alert('Tidak ada hasil yang ditemukan');
                             }
                         } else {
-                            window.alert('Geocoder failed due to: ' + status);
+                            alert('Geocoder gagal karena: ' + status);
                         }
                     });
                 });
             }, function() {
-                handleLocationError(true, infoWindow, map.getCenter());
+                $('#textAddress').val('Lokasi tidak ditemukan.');
+                alert('{{ config('app.name') }} tidak memiliki izin untuk menggunakan lokasi anda.');
             });
         } else {
             // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
+            $('#textAddress').val('Lokasi tidak ditemukan.');
+            alert('Browser anda tidak support Geolocation.');
         }
     }
 
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
-                                'Error: The Geolocation service failed.' :
-                                'Error: Your browser doesn\'t support geolocation.');
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
     }
 
