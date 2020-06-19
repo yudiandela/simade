@@ -37,7 +37,8 @@
                                     (Diambil otomatis dari google)
                                 </label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="address" name="address" value="{{ old('address', $survey->address) }}" class="form-control @error('address') is-invalid @enderror">
+                                    <input type="text" id="textAddress" readonly class="form-control-plaintext">
+                                    <input type="hidden" id="address" name="address" value="{{ old('address') }}" class="form-control @error('address') is-invalid @enderror">
                                     @error('address')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -119,8 +120,8 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 pos = {
-                    lat: {{ $survey->latitude }},
-                    lng: {{ $survey->longitude }}
+                    lat: {{ old('latitude', $survey->latitude) }},
+                    lng: {{ old('longitude', $survey->longitude) }}
                 };
 
                 geocoder = new google.maps.Geocoder;
@@ -128,6 +129,7 @@
                     if (status === 'OK') {
                         if (results[0]) {
                             $('#address').val(results[0].formatted_address);
+                            $('#textAddress').val(results[0].formatted_address);
                         } else {
                             window.alert('No results found');
                         }
@@ -165,6 +167,7 @@
                         if (status === 'OK') {
                             if (results[0]) {
                                 $('#address').val(results[0].formatted_address);
+                                $('#textAddress').val(results[0].formatted_address);
                             } else {
                                 window.alert('No results found');
                             }
