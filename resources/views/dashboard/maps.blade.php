@@ -92,6 +92,7 @@
         await fetchDataSurveys(`{{ route('api.surveys') }}`);
 
         @if(request()->has('lat') and request()->has('lng'))
+            map.setZoom(20);
             map.setCenter(new google.maps.LatLng({{ request()->lat }}, {{ request()->lng }}));
         @else
             map.setCenter(features[0].position);
@@ -220,9 +221,9 @@
                                         <td>${value.name}</td>
                                     </tr>
                                     <tr>
-                                        <td>No KTP</td>
+                                        <td>No Handphone</td>
                                         <td>:</td>
-                                        <td>123456789</td>
+                                        <td>${value.phone}</td>
                                     </tr>
                                     <tr>
                                         <td>Alamat</td>
