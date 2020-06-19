@@ -156,7 +156,7 @@
                     </tbody> --}}
                 </table>
 
-                {{ $surveys->links() }}
+                {{ $surveys->links('components.pagination') }}
 
                 <div id="datepicker" style="display: none;" ></div>
 
@@ -294,26 +294,36 @@ $(document).ready(function() {
     getDataApi(`${apiUrl}?get=province`, province);
     getDataApi(`${apiUrl}?get=districts&province=${province.val()}`, districts);
 
-    async function loadData(url) {
+    async function loadData(url, page = 1) {
         $('#showData').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
-        return await fetch(`${url}?province=${province.val()}&districts=${districts.val()}&price=${price.val()}&status=${status.val()}`)
+        return await fetch(`${url}?province=${province.val()}&districts=${districts.val()}&price=${price.val()}&status=${status.val()}&page=${page}`)
             .then( res => res.json())
             .then( data => $('#showData').html(data))
             .catch( error => console.error(error));
     }
 
-    async function resetData(url) {
+    async function resetData(url, page = 1) {
         province.val('all');
         price.val('all');
         status.val('all');
 
         getDataApi(`${apiUrl}?get=districts&province=${province.val()}`, districts);
         $('#showData').html('<tr><td colspan="9" class="text-center">Loading...</td></tr>');
-        return await fetch(`${url}?province=${province.val()}&districts=${districts.val()}&price=${price.val()}&status=${status.val()}`)
+        return await fetch(`${url}?province=${province.val()}&districts=${districts.val()}&price=${price.val()}&status=${status.val()}&page=${page}`)
             .then( res => res.json())
             .then( data => $('#showData').html(data))
             .catch( error => console.error(error));
     }
+
+    $('.pagination a').click(function(event) {
+        event.preventDefault();
+        var page = $(this).data('href');
+
+        $(this).parent('li').siblings().removeClass('active');
+        $(this).parent('li').addClass('active');
+
+        loadData(endPoint, page);
+    });
 
     province.change(function() {
         getDataApi(`${apiUrl}?get=districts&province=${province.val()}`, districts);

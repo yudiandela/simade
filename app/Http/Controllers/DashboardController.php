@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    protected $paginate = 5;
+    protected $paginate = 10;
 
     /**
      * Create a new controller instance.
