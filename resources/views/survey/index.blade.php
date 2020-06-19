@@ -218,8 +218,8 @@
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
+                    lat: {{ old('latitude', 'position.coords.latitude') }},
+                    lng: {{ old('longitude', 'position.coords.longitude') }}
                 };
 
                 geocoder = new google.maps.Geocoder;
