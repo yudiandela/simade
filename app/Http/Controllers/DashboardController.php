@@ -239,7 +239,13 @@ class DashboardController extends Controller
     public function maps(Request $request)
     {
         $surveys = Survey::all();
-        return view('dashboard.maps', compact('surveys'));
+        $detail = null;
+
+        if ($request->type != null) {
+            $detail = Str::title('App\\' . $request->type)::where('id', $request->id)->first();
+        }
+
+        return view('dashboard.maps', compact('surveys', 'detail'));
     }
 
     public function myTask()

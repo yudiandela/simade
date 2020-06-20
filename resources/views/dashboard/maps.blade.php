@@ -28,7 +28,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <input type="text" name="search" id="search" class="form-control" placeholder="Masukkan nama ODP">
+                <input type="text" name="search" id="search" class="form-control" autocomplete="off" placeholder="Masukkan nama ODP">
                 <ul class="list-group" id="search-result"></ul>
             </div>
             <div class="col-md-4">
@@ -52,7 +52,7 @@
         </div>
         <div class="row mt-2">
             <div class="col-md-12">
-                <div id="googleMap" style="width:100%; height:520px;"></div>
+                <div id="googleMap" style="width:100%; height:693px;"></div>
             </div>
         </div>
     </div>
@@ -92,8 +92,94 @@
         await fetchDataSurveys(`{{ route('api.surveys') }}`);
 
         @if(request()->has('lat') and request()->has('lng'))
+            var windowLatLng = new google.maps.LatLng({{ request()->lat }}, {{ request()->lng }});
+
             map.setZoom(20);
-            map.setCenter(new google.maps.LatLng({{ request()->lat }}, {{ request()->lng }}));
+            map.setCenter(windowLatLng);
+            infowindow.setOptions({
+                @if(request()->type == 'survey')
+                    content: `
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Nama</td>
+                                        <td>:</td>
+                                        <td>{{ $detail->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No Handphone</td>
+                                        <td>:</td>
+                                        <td>{{ $detail->phone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat</td>
+                                        <td>:</td>
+                                        <td>{{ $detail->address }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lokasi</td>
+                                        <td>:</td>
+                                        <td><a href="{{ route('inbox.maps') }}?lat={{ $detail->latitude }}&lng={{ $detail->longitude }}&id={{ $detail->id }}&type=survey">{{ $detail->latitude }} | {{ $detail->longitude }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status Hunian</td>
+                                        <td>:</td>
+                                        <td>{{ $detail->name }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `,
+                @else
+                    content: `
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>DATEL</strong></td>
+                                        <td>{{ $detail->datel }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>LATITUDE</strong></td>
+                                        <td>{{ $detail->locn_x }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>LONGITUDE</strong></td>
+                                        <td>{{ $detail->locn_y }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>NAMA ODP</strong></td>
+                                        <td><a href="{{ route('inbox.maps') }}?lat={{ $detail->locn_x }}&lng={{ $detail->locn_y }}&id={{ $detail->id }}&type=odb">{{ $detail->nama_odp }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>REAL ISISKA AVAI</strong></td>
+                                        <td>{{ $detail->real_isiska_avai }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>REAL ISISKA TOTAL</strong></td>
+                                        <td>{{ $detail->real_isiska_total }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>REAL OCCUPANCY</strong></td>
+                                        <td>{{ $detail->real_occupancy }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>STATUS</strong></td>
+                                        <td>{{ $detail->status }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>STO</strong></td>
+                                        <td>{{ $detail->sto }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>WITEL</strong></td>
+                                        <td>{{ $detail->witel }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `,
+                @endif
+                position: windowLatLng,
+            });
+            infowindow.open(map);
         @else
             map.setCenter(features[0].position);
         @endif
@@ -169,7 +255,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>NAMA ODP</strong></td>
-                                        <td><a href="{{ route('inbox.maps') }}?lat=${value.locn_x}&lng=${value.locn_y}">${value.nama_odp}</a></td>
+                                        <td><a href="{{ route('inbox.maps') }}?lat=${value.locn_x}&lng=${value.locn_y}&id=${value.id}&type=odb">${value.nama_odp}</a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>REAL ISISKA AVAI</strong></td>
@@ -233,7 +319,7 @@
                                     <tr>
                                         <td>Lokasi</td>
                                         <td>:</td>
-                                        <td><a href="{{ route('inbox.maps') }}?lat=${value.latitude}&lng=${value.longitude}">${value.latitude} | ${value.longitude}</a></td>
+                                        <td><a href="{{ route('inbox.maps') }}?lat=${value.latitude}&lng=${value.longitude}&id=${value.id}&type=survey">${value.latitude} | ${value.longitude}</a></td>
                                     </tr>
                                     <tr>
                                         <td>Status Hunian</td>
@@ -260,7 +346,7 @@
                 result.html('');
                 $.each(data.data, function(key, value) {
                     if (value.nama_odp.search(expression) != -1) {
-                        result.append(`<li class="list-group-item link-class"><a href="{{ route('inbox.maps') }}?lat=${value.locn_x}&lng=${value.locn_y}">
+                        result.append(`<li class="list-group-item link-class"><a href="{{ route('inbox.maps') }}?lat=${value.locn_x}&lng=${value.locn_y}&id=${value.id}&type=odb">
                         <span class="text-muted">${value.nama_odp} | ${value.datel} | ${value.status}</span>
                         </a></li>`);
                     }
