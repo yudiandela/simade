@@ -165,6 +165,8 @@
         </ul>
     </div>
 
+    <input id="pac-input" class="controls form-control" type="text" placeholder="Cari Lokasi..." style="width: 473px; padding: 1.4rem; margin-top: 10px;">
+
     <x-script.footer></x-script.footer>
 
     <!-- Live Chat Widget powered by https://keyreply.com/chat/ -->
@@ -182,7 +184,7 @@
         });
     </script> --}}
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initMap"></script>
     <script>
     (function() {
         $('input.form-control').keyup(function() {
@@ -213,7 +215,7 @@
         $("#myForm").css("display", "none");
     });
 
-    var map, infoWindow, pos, marker, geocoder;
+    var map, infoWindow, pos, marker, geocoder, input, searchBox;
     function initMap() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -274,6 +276,77 @@
                             alert('Geocoder gagal karena: ' + status);
                         }
                     });
+                });
+
+                // Create the search box and link it to the UI element.
+                input = document.getElementById('pac-input');
+                searchBox = new google.maps.places.SearchBox(input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+                // Bias the SearchBox results towards current map's viewport.
+                map.addListener('bounds_changed', function() {
+                    searchBox.setBounds(map.getBounds());
+                });
+
+                searchBox.addListener('places_changed', function() {
+                    var places = searchBox.getPlaces();
+
+                    if (places.length == 0) {
+                        return;
+                    }
+
+                    marker.setMap(null);
+                    // For each place, get the icon, name and location.
+                    var bounds = new google.maps.LatLngBounds();
+                    places.forEach(function(place) {
+                        if (!place.geometry) {
+                            return;
+                        }
+
+                        $('#address').val(place.formatted_address);
+                        $('#textAddress').val(place.formatted_address);
+
+                        $('#lat').val(place.geometry.location.lat().toFixed(5));
+                        $('#lng').val(place.geometry.location.lng().toFixed(5));
+
+                        marker = new google.maps.Marker({
+                            position: place.geometry.location,
+                            draggable: true,
+                            animation: google.maps.Animation.DROP,
+                            map: map
+                        });
+
+                        marker.addListener('dragend', function() {
+                            pos = {
+                                lat: this.position.lat(),
+                                lng: this.position.lng()
+                            };
+
+                            $('#lat').val(pos.lat.toFixed(5));
+                            $('#lng').val(pos.lng.toFixed(5));
+
+                            geocoder.geocode({'location': pos}, function(results, status) {
+                                if (status === 'OK') {
+                                    if (results[0]) {
+                                        $('#address').val(results[0].formatted_address);
+                                        $('#textAddress').val(results[0].formatted_address);
+                                    } else {
+                                        alert('Tidak ada hasil yang ditemukan');
+                                    }
+                                } else {
+                                    alert('Geocoder gagal karena: ' + status);
+                                }
+                            });
+                        });
+
+                        if (place.geometry.viewport) {
+                            // Only geocodes have viewport.
+                            bounds.union(place.geometry.viewport);
+                        } else {
+                            bounds.extend(place.geometry.location);
+                        }
+                    });
+                    map.fitBounds(bounds);
                 });
             }, function() {
                 $('#textAddress').val('Lokasi tidak ditemukan.');
