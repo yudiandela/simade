@@ -242,7 +242,7 @@ class DashboardController extends Controller
         $detail = null;
 
         if ($request->type != null) {
-            $detail = Str::title('App\\' . $request->type)::where('id', $request->id)->first();
+            $detail = ('App\\' . Str::title($request->type))::where('id', $request->id)->first();
         }
 
         return view('dashboard.maps', compact('surveys', 'detail'));
