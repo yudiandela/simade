@@ -17,7 +17,7 @@ class Survey extends Model
 
     public function getPriceAttribute()
     {
-        if (is_null($this->price_to)) {
+        if ($this->price_to == null) {
             return '> ' . $this->checkPrice($this->price_from);
         }
 
