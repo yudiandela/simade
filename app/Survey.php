@@ -15,6 +15,17 @@ class Survey extends Model
         'id', 'created_at', 'updated_at'
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'latitude' => 'float',
+        'longitude' => 'float',
+        'estimated_time' => 'date',
+    ];
+
     public function getPriceAttribute()
     {
         if ($this->price_to == null) {
