@@ -189,7 +189,7 @@ class DashboardController extends Controller
             $data[] = '
                 <tr>
                     <td class="align-middle text-center">' . $survey->survey_id . '</td>
-                    <td class="align-middle text-left"><a href="' . route('inbox.maps') . '?lat=' . $survey->latitude . '&lng=' . $survey->longitude . '">' . $survey->name . '</a></td>
+                    <td class="align-middle text-left"><a href="' . route('inbox.maps') . '?lat=' . $survey->latitude . '&lng=' . $survey->longitude . '&id=' . $survey->id . '&type=survey">' . $survey->name . '</a></td>
                     <td class="align-middle text-center">' . $survey->phone . '</td>
                     <td class="align-middle text-center">' . Str::title(rtrim(preg_replace('/\d/', '', $survey->province))) . '</td>
                     <td class="align-middle text-center">' . Str::title($survey->districts) . '</td>
