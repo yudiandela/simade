@@ -226,7 +226,7 @@ label {
 }
 
 /* Responsive Media */
-@media only screen and (max-width: 600px) {
+@media screen and (max-device-width: 640px){
     .login-box {
         width: 80%;
         padding: 15px 25px;
