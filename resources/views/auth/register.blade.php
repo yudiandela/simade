@@ -30,6 +30,14 @@
         <input id="password-confirm" type="password" class="form-control" placeholder="Konfirmasi Password" name="password_confirmation" required autocomplete="new-password">
     </div>
 
+    <div class="form-group">
+        <select id="role" name="role" class="form-control">
+            <option value="verificator">Verificator</option>
+            <option value="deployment">Deployment</option>
+            <option value="manager cs">Manager CS</option>
+        </select>
+    </div>
+
     <button type="submit" class="btn btn-p btn-primary">Register</button>
 </form>
 @endsection

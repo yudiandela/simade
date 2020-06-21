@@ -97,6 +97,7 @@ label {
     font-size: 11pt;
     border: none;
     border-radius: 3px;
+    background-color: rgb(255, 255, 255);
 }
 
 .btn-p {
