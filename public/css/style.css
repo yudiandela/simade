@@ -13,6 +13,7 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    width: inherit;
 }
 
 h1 {
@@ -41,7 +42,7 @@ h1 {
 }
 
 .login-box {
-    border-radius: 10%;
+    border-radius: 30px;
     width: 350px;
     background: rgba(255, 255, 255, 0.602);
     padding: 30px 50px;
@@ -222,4 +223,28 @@ label {
 /* Add some hover effects to buttons */
 .form-chat-container .btn:hover, .open-button:hover {
     opacity: 1;
+}
+
+/* Responsive Media */
+@media only screen and (max-width: 600px) {
+    .login-box {
+        width: 80%;
+        padding: 15px 25px;
+        top: 50%;
+        left: 5%;
+    }
+
+    .logo {
+        width: 120px;
+        position: relative;
+        top: 8%;
+        left: 70%;
+        transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+    }
+
+    .img-responsive {
+        width: 80%;
+        margin: -25px 0 0 12px;
+    }
 }
