@@ -224,9 +224,8 @@
                     lng: {{ old('longitude', 'position.coords.longitude') }}
                 };
 
-                geocoder = new google.maps.Geocoder;
+                geocoder = new google.maps.Geocoder();
                 geocoder.geocode({'location': pos}, function(results, status) {
-                    console.log(status)
                     if (status === 'OK') {
                         if (results[0]) {
                             $('#address').val(results[0].formatted_address);

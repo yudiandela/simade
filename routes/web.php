@@ -27,10 +27,12 @@ Auth::routes();
 Route::get('/', 'DashboardController@index')->name('dashboard');
 Route::get('/table', 'DashboardController@getTable')->name('dashboard.table');
 Route::get('/inbox-maps', 'DashboardController@maps')->name('inbox.maps');
-Route::get('/my-tasks', 'DashboardController@myTask')->name('mytask');
 Route::patch('/approve', 'DashboardController@approve')->name('approve');
 Route::patch('/not-approve', 'DashboardController@not_approve')->name('not-approve');
 
 Route::get('/new-table', 'DashboardController@getNewTable')->name('dashboard.newtable');
 Route::get('/data-api', 'DashboardController@getDataApi')->name('data.api');
 // Route::get('/import', 'ImportController');
+
+Route::get('/my-tasks', 'TaskController@overview')->name('task.overview');
+Route::get('/my-tasks/search', 'TaskController@search')->name('task.search');

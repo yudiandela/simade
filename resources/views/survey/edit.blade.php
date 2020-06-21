@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-5">
+<div class="px-5">
     <div class="container-fluid">
         @if (session('status'))
             <div class="alert alert-success text-center">
@@ -110,7 +110,7 @@
         </div>
     </div>
 
-    <input id="pac-input" class="controls form-control" type="text" placeholder="Cari Lokasi..." style="width: 473px; padding: 1.4rem; margin-top: 10px;">
+    <input id="pac-input" class="controls form-control" type="text" placeholder="Cari Lokasi..." style="width: 433px; padding: 1.4rem; margin-top: 10px;">
 </div>
 @endsection
 

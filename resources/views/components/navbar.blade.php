@@ -19,7 +19,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-uppercase text-white ml-5 mr-5" href="{{ route('mytask') }}">My Task</a>
+                    <a class="nav-link text-uppercase text-white ml-5 mr-5" href="{{ route('task.overview') }}">My Task</a>
                 </li>
 
                 <li class="nav-item">

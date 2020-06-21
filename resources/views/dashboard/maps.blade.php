@@ -99,32 +99,32 @@
             infowindow.setOptions({
                 @if(request()->type == 'survey')
                     content: `
-                            <table>
+                            <table class="table table-borderless table-sm">
                                 <tbody>
                                     <tr>
-                                        <td>Nama</td>
-                                        <td>:</td>
-                                        <td>{{ $detail->name }}</td>
+                                        <td class="align-top">Nama</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top">{{ $detail->name }}</td>
                                     </tr>
                                     <tr>
-                                        <td>No Handphone</td>
-                                        <td>:</td>
-                                        <td>{{ $detail->phone }}</td>
+                                        <td class="align-top">Handphone</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top">{{ $detail->phone }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat</td>
-                                        <td>:</td>
-                                        <td>{{ $detail->address }}</td>
+                                        <td class="align-top">Alamat</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top">{{ $detail->address }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Lokasi</td>
-                                        <td>:</td>
-                                        <td><a href="{{ route('inbox.maps') }}?lat={{ $detail->latitude }}&lng={{ $detail->longitude }}&id={{ $detail->id }}&type=survey">{{ $detail->latitude }} | {{ $detail->longitude }}</a></td>
+                                        <td class="align-top">Lokasi</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top"><a href="{{ route('inbox.maps') }}?lat={{ $detail->latitude }}&lng={{ $detail->longitude }}&id={{ $detail->id }}&type=survey">{{ $detail->latitude }} | {{ $detail->longitude }}</a></td>
                                     </tr>
                                     <tr>
-                                        <td>Status Hunian</td>
-                                        <td>:</td>
-                                        <td>{{ $detail->name }}</td>
+                                        <td class="align-top">Hunian</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top">Milik Sendiri</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -134,44 +134,44 @@
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <td><strong>DATEL</strong></td>
-                                        <td>{{ $detail->datel }}</td>
+                                        <td class="align-top"><strong>DATEL</strong></td>
+                                        <td class="align-top">{{ $detail->datel }}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>LATITUDE</strong></td>
-                                        <td>{{ $detail->locn_x }}</td>
+                                        <td class="align-top"><strong>LATITUDE</strong></td>
+                                        <td class="align-top">{{ $detail->locn_x }}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>LONGITUDE</strong></td>
-                                        <td>{{ $detail->locn_y }}</td>
+                                        <td class="align-top"><strong>LONGITUDE</strong></td>
+                                        <td class="align-top">{{ $detail->locn_y }}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>NAMA ODP</strong></td>
-                                        <td><a href="{{ route('inbox.maps') }}?lat={{ $detail->locn_x }}&lng={{ $detail->locn_y }}&id={{ $detail->id }}&type=odb">{{ $detail->nama_odp }}</a></td>
+                                        <td class="align-top"><strong>NAMA ODP</strong></td>
+                                        <td class="align-top"><a href="{{ route('inbox.maps') }}?lat={{ $detail->locn_x }}&lng={{ $detail->locn_y }}&id={{ $detail->id }}&type=odb">{{ $detail->nama_odp }}</a></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>REAL ISISKA AVAI</strong></td>
-                                        <td>{{ $detail->real_isiska_avai }}</td>
+                                        <td class="align-top"><strong>REAL ISISKA AVAI</strong></td>
+                                        <td class="align-top">{{ $detail->real_isiska_avai }}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>REAL ISISKA TOTAL</strong></td>
-                                        <td>{{ $detail->real_isiska_total }}</td>
+                                        <td class="align-top"><strong>REAL ISISKA TOTAL</strong></td>
+                                        <td class="align-top">{{ $detail->real_isiska_total }}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>REAL OCCUPANCY</strong></td>
-                                        <td>{{ $detail->real_occupancy }}</td>
+                                        <td class="align-top"><strong>REAL OCCUPANCY</strong></td>
+                                        <td class="align-top">{{ $detail->real_occupancy }}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>STATUS</strong></td>
-                                        <td>{{ $detail->status }}</td>
+                                        <td class="align-top"><strong>STATUS</strong></td>
+                                        <td class="align-top">{{ $detail->status }}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>STO</strong></td>
-                                        <td>{{ $detail->sto }}</td>
+                                        <td class="align-top"><strong>STO</strong></td>
+                                        <td class="align-top">{{ $detail->sto }}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>WITEL</strong></td>
-                                        <td>{{ $detail->witel }}</td>
+                                        <td class="align-top"><strong>WITEL</strong></td>
+                                        <td class="align-top">{{ $detail->witel }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -242,44 +242,44 @@
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <td><strong>DATEL</strong></td>
-                                        <td>${value.datel}</td>
+                                        <td class="align-top"><strong>DATEL</strong></td>
+                                        <td class="align-top">${value.datel}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>LATITUDE</strong></td>
-                                        <td>${value.locn_x}</td>
+                                        <td class="align-top"><strong>LATITUDE</strong></td>
+                                        <td class="align-top">${value.locn_x}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>LONGITUDE</strong></td>
-                                        <td>${value.locn_y}</td>
+                                        <td class="align-top"><strong>LONGITUDE</strong></td>
+                                        <td class="align-top">${value.locn_y}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>NAMA ODP</strong></td>
-                                        <td><a href="{{ route('inbox.maps') }}?lat=${value.locn_x}&lng=${value.locn_y}&id=${value.id}&type=odb">${value.nama_odp}</a></td>
+                                        <td class="align-top"><strong>NAMA ODP</strong></td>
+                                        <td class="align-top"><a href="{{ route('inbox.maps') }}?lat=${value.locn_x}&lng=${value.locn_y}&id=${value.id}&type=odb">${value.nama_odp}</a></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>REAL ISISKA AVAI</strong></td>
-                                        <td>${value.real_isiska_avai}</td>
+                                        <td class="align-top"><strong>REAL ISISKA AVAI</strong></td>
+                                        <td class="align-top">${value.real_isiska_avai}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>REAL ISISKA TOTAL</strong></td>
-                                        <td>${value.real_isiska_total}</td>
+                                        <td class="align-top"><strong>REAL ISISKA TOTAL</strong></td>
+                                        <td class="align-top">${value.real_isiska_total}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>REAL OCCUPANCY</strong></td>
-                                        <td>${value.real_occupancy}</td>
+                                        <td class="align-top"><strong>REAL OCCUPANCY</strong></td>
+                                        <td class="align-top">${value.real_occupancy}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>STATUS</strong></td>
-                                        <td>${value.status}</td>
+                                        <td class="align-top"><strong>STATUS</strong></td>
+                                        <td class="align-top">${value.status}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>STO</strong></td>
-                                        <td>${value.sto}</td>
+                                        <td class="align-top"><strong>STO</strong></td>
+                                        <td class="align-top">${value.sto}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>WITEL</strong></td>
-                                        <td>${value.witel}</td>
+                                        <td class="align-top"><strong>WITEL</strong></td>
+                                        <td class="align-top">${value.witel}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -299,32 +299,32 @@
                         icon: iconBase,
                         type: 'user',
                         content: `
-                            <table>
+                            <table class="table table-borderless table-sm">
                                 <tbody>
                                     <tr>
-                                        <td>Nama</td>
-                                        <td>:</td>
-                                        <td>${value.name}</td>
+                                        <td class="align-top">Nama</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top">${value.name}</td>
                                     </tr>
                                     <tr>
-                                        <td>No Handphone</td>
-                                        <td>:</td>
-                                        <td>${value.phone}</td>
+                                        <td class="align-top">Handphone</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top">${value.phone}</td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat</td>
-                                        <td>:</td>
-                                        <td>${value.address}</td>
+                                        <td class="align-top">Alamat</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top">${value.address}</td>
                                     </tr>
                                     <tr>
-                                        <td>Lokasi</td>
-                                        <td>:</td>
-                                        <td><a href="{{ route('inbox.maps') }}?lat=${value.latitude}&lng=${value.longitude}&id=${value.id}&type=survey">${value.latitude} | ${value.longitude}</a></td>
+                                        <td class="align-top">Lokasi</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top"><a href="{{ route('inbox.maps') }}?lat=${value.latitude}&lng=${value.longitude}&id=${value.id}&type=survey">${value.latitude} | ${value.longitude}</a></td>
                                     </tr>
                                     <tr>
-                                        <td>Status Hunian</td>
-                                        <td>:</td>
-                                        <td>Milik Sendiri</td>
+                                        <td class="align-top">Hunian</td>
+                                        <td class="align-top">:</td>
+                                        <td class="align-top">Milik Sendiri</td>
                                     </tr>
                                 </tbody>
                             </table>

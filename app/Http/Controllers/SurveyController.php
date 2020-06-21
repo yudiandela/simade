@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
 {
@@ -78,6 +79,10 @@ class SurveyController extends Controller
 
     public function edit(Request $request, Survey $survey)
     {
+        if (Auth::user()->role !== 'verificator') {
+            return view('errors.403');
+        }
+
         return view('survey.edit', compact('survey'));
     }
 

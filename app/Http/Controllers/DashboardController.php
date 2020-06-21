@@ -247,9 +247,4 @@ class DashboardController extends Controller
 
         return view('dashboard.maps', compact('surveys', 'detail'));
     }
-
-    public function myTask()
-    {
-        return view('dashboard.my-task');
-    }
 }
