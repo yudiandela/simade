@@ -84,6 +84,22 @@
                             </table>
 
                             {{ $datas->withQueryString()->links() }}
+                        @else
+                            <table class="mt-3 table table-bordered">
+                                <thead class="bg-danger text-white">
+                                    <tr>
+                                        <th class="align-middle text-center">No order / SID</th>
+                                        <th class="align-middle text-center">Type of Task</th>
+                                        <th class="align-middle text-center">Status</th>
+                                        <th class="align-middle text-center">Status Date</th>
+                                        <th class="align-middle text-center">Work Date</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr><td colspan="5" class="text-center">Tidak ada data yang ditampilkan</td></tr>
+                                </tbody>
+                            </table>
                         @endif
                     </div>
                 </div>
