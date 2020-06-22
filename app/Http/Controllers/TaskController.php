@@ -84,7 +84,7 @@ class TaskController extends Controller
                             Estimated Time : ' . ($survey->estimated_time ?: " - ") . '
                         </td>
                         <td class="align-middle text-center">
-                            ' . (auth()->user()->role === 'verificator' ?
+                            ' . (auth()->user()->role == 'Verificator' ?
                 '<a href="' . route('survey.edit', $survey->id) . '" class="btn btn-primary">Edit</a>' :
                 '<a href="#" disabled class="btn btn-primary disabled">Edit</a>') . '
                         </td>
