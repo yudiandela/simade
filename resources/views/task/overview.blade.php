@@ -9,7 +9,7 @@
 
                 <div class="card rounded-0">
                     <div class="card-body">
-                        Account Role (Jenis Akun) : {{ Str::title(auth()->user()->role) }}
+                        Account Role (Jenis Akun) : {{ auth()->user()->role }}
 
                         <!-- Example single danger button -->
                         <div class="mx-4 btn-group">

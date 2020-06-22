@@ -168,6 +168,20 @@ class SurveyController extends Controller
                 $note = 'Deployment Approved dan sudah selesai pembangunan ' . $survey->work_date->format('d-M-Y');
                 $handler = 'Manager CS';
             }
+        } elseif ($requestKey[0] == 'manager_1') {
+            if ($survey->manager_2 !== 'Complete') {
+                $note = 'Pending Task 2 Manager CS';
+            } else {
+                $status = 'Done';
+                $note = 'Manager CS approved : Data benar dan Pelanggan Minat';
+            }
+        } elseif ($requestKey[0] == 'manager_2') {
+            if ($survey->manager_1 !== 'Complete') {
+                $note = 'Pending Task 2 Manager CS';
+            } else {
+                $status = 'Done';
+                $note = 'Manager CS approved : Data benar dan Pelanggan Minat';
+            }
         }
 
         if ($handler) {
@@ -176,16 +190,6 @@ class SurveyController extends Controller
 
         if ($note) {
             $survey->update(['note' => $note]);
-        }
-
-        if ($requestKey[0] == 'manager_1') {
-            if ($survey->manager_2 != 'Pending') {
-                $status = 'Done';
-            }
-        } elseif ($requestKey[0] == 'manager_2') {
-            if ($survey->manager_1 != 'Pending') {
-                $status = 'Done';
-            }
         }
 
         if ($status) {
