@@ -79,7 +79,7 @@ class SurveyController extends Controller
 
     public function edit(Request $request, Survey $survey)
     {
-        if (Auth::user()->role !== 'verificator') {
+        if (Auth::user()->role != 'Verificator') {
             return view('errors.403');
         }
 
