@@ -47,7 +47,8 @@ class SurveyController extends Controller
             'price_from' => (int) $price[0],
             'price_to' => (int) $price_to,
             'latitude' => (float) $request->latitude,
-            'longitude' => (float) $request->longitude
+            'longitude' => (float) $request->longitude,
+            'status' => 'New'
         ]);
 
         $id = $survey->id;

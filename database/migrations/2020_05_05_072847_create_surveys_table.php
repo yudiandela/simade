@@ -27,8 +27,8 @@ class CreateSurveysTable extends Migration
             $table->integer('price_to')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
-            $table->enum('status', ['New', 'On Progress', 'Done', 'Cancel', 'Pending', 'Complete', 'Reject'])->nullable();
-            $table->enum('handler', ['Verificator', 'Deployment', 'Manager CS'])->nullable();
+            $table->enum('status', ['New', 'On Progress', 'Done', 'Cancel', 'Pending', 'Complete', 'Reject']);
+            $table->enum('handler', ['Verificator', 'Deployment', 'Manager CS']);
             $table->date('estimated_time')->nullable();
             $table->enum('verificator_1', ['Pending', 'Complete', 'Reject'])->nullable();
             $table->enum('verificator_2', ['Pending', 'Complete', 'Reject'])->nullable();
@@ -43,7 +43,7 @@ class CreateSurveysTable extends Migration
             $table->date('deployment_1_date')->nullable();
             $table->date('deployment_2_date')->nullable();
             $table->date('work_date')->nullable();
-            $table->string('note')->default('-')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }
