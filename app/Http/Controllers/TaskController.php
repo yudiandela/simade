@@ -32,12 +32,17 @@ class TaskController extends Controller
             $datas = Survey::where(['status' => $action, 'handler' => $role])->paginate(10);
         }
 
-        $validate1 = auth()->user()->role == 'Verificator' ? 'verificator_1' : (auth()->user()->role == 'Deployment' ? 'deployment_1' : 'manager_1');
-        $validate2 = auth()->user()->role == 'Verificator' ? 'verificator_2' : (auth()->user()->role == 'Deployment' ? 'deployment_2' : 'manager_2');
+        $validate1 = $role == 'Verificator' ? 'verificator_1' : ($role == 'Deployment' ? 'deployment_1' : 'manager_1');
+        $validate2 = $role == 'Verificator' ? 'verificator_2' : ($role == 'Deployment' ? 'deployment_2' : 'manager_2');
         $validate1Date = $validate1 . '_date';
         $validate2Date = $validate2 . '_date';
 
-        return view('task.overview', compact('datas', 'new', 'onProgress', 'done', 'validate1', 'validate2', 'validate1Date', 'validate2Date'));
+        $deployment = false;
+        if ($role === 'Deployment') {
+            $deployment = true;
+        }
+
+        return view('task.overview', compact('datas', 'new', 'onProgress', 'done', 'validate1', 'validate2', 'validate1Date', 'validate2Date', 'deployment'));
     }
 
     public function search(Request $request)

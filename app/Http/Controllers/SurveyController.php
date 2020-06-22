@@ -159,10 +159,13 @@ class SurveyController extends Controller
             }
         } elseif ($requestKey[0] == 'deployment_1') {
             if ($survey->deployment_2 !== 'Complete') {
+                $note = 'Pending Task 2, Ready to Deploy Tanggal ' . $survey->work_date->format('d-M-Y');
+            } else {
                 $handler = 'Manager CS';
             }
         } elseif ($requestKey[0] == 'deployment_2') {
-            if ($survey->deployment_1 !== 'Complete') {
+            if ($survey->deployment_1 === 'Complete') {
+                $note = 'Deployment Approved dan sudah selesai pembangunan ' . $survey->work_date->format('d-M-Y');
                 $handler = 'Manager CS';
             }
         }

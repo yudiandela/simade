@@ -42,6 +42,7 @@ class CreateSurveysTable extends Migration
             $table->date('manager_2_date')->nullable();
             $table->date('deployment_1_date')->nullable();
             $table->date('deployment_2_date')->nullable();
+            $table->date('work_date')->nullable();
             $table->string('note')->default('-')->nullable();
             $table->timestamps();
         });

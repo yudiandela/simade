@@ -30,6 +30,7 @@ class Survey extends Model
         'manager_2_date' => 'date',
         'deployment_1_date' => 'date',
         'deployment_2_date' => 'date',
+        'work_date' => 'date',
     ];
 
     public function getPriceAttribute()

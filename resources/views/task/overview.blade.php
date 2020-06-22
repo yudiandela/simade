@@ -47,7 +47,7 @@
                                                 {{ auth()->user()->role }} 1
                                             </td>
                                             <td class="align-middle text-center">
-                                                <select name="{{ $validate1 }}" class="form-control validate" data-survey-id="{{ $data->id }}">
+                                                <select name="{{ $validate1 }}" class="form-control{{ $deployment ? ' dValidate' : ' validate' }}" data-survey-id="{{ $data->id }}">
                                                     <option value="Pending"{{ $data->$validate1 == 'Pending' ? ' selected' : '' }}>Pending</option>
                                                     <option value="Complete"{{ $data->$validate1 == 'Complete' ? ' selected' : '' }}>Complete</option>
                                                     <option value="Reject"{{ $data->$validate1 == 'Reject' ? ' selected' : '' }}>Reject</option>
@@ -57,7 +57,7 @@
                                                 {{ !is_null($data->$validate1Date) ? $data->$validate1Date->format('d M Y') : '-' }}
                                             </td>
                                             <td class="align-middle text-center">
-                                                {{ !is_null($data->$validate1Date) ? $data->$validate1Date->format('d M Y') : '-' }}
+                                                {{ !is_null($data->work_date) ? $data->work_date->format('d M Y') : '-' }}
                                             </td>
                                         </tr>
 
@@ -76,7 +76,7 @@
                                                 {{ !is_null($data->$validate2Date) ? $data->$validate2Date->format('d M Y') : '-' }}
                                             </td>
                                             <td class="align-middle text-center">
-                                                {{ !is_null($data->$validate2Date) ? $data->$validate2Date->format('d M Y') : '-' }}
+                                                {{ !is_null($data->work_date) ? $data->work_date->format('d M Y') : '-' }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -130,12 +130,27 @@
         </div>
     </div>
 </div>
+
+<div id="datepicker" style="display: none;"></div>
 @endsection
 
 @push('scripts')
     <script>
         $().ready(function () {
             let survey_id, name, value, date, url, note;
+            $('.dValidate').change(function() {
+                survey_id = $(this).data('survey-id');
+                name = $(this).attr('name');
+                value = $(this).val();
+                date = "{{ Carbon\Carbon::now() }}";
+
+                url = "{{ route('survey.validate', ':survey_id') }}";
+                url = url.replace(':survey_id', survey_id);
+
+                datepicker.open();
+
+            });
+
             $('.validate').change(function() {
                 survey_id = $(this).data('survey-id');
                 name = $(this).attr('name');
@@ -167,7 +182,20 @@
                     });
                 }
 
-            })
+            });
+
+            let datepicker = $('#datepicker').datepicker({
+                modal: true,
+                format: 'yyyy-mm-dd',
+                change: function(e) {
+                    postData(url, 'PUT', {
+                            [name] : value,
+                            [name + "_date"] : date,
+                            'work_date' : datepicker.value()
+                        });
+                }
+            });
+
         });
 
         async function postData(url, method, data) {
