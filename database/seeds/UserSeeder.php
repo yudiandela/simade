@@ -13,21 +13,12 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Administrator',
-            'email' => 'admin@email.com',
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
-            'role' => 'admin'
-        ]);
-
-        User::create([
             'name' => 'Verificator',
             'email' => 'verificator@email.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'role' => 'verificator'
+            'role' => 'Verificator'
         ]);
 
         User::create([
@@ -36,7 +27,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'role' => 'manager cs'
+            'role' => 'Manager CS'
         ]);
 
         User::create([
@@ -45,7 +36,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'role' => 'deployment'
+            'role' => 'Deployment'
         ]);
     }
 }
