@@ -72,6 +72,7 @@
                         <label for="">Status</label>
                         <select id="status" name="status" class="form-control getData">
                             <option value="all">Semua</option>
+                            <option value="New">New</option>
                             <option value="On Progress">On Progress</option>
                             <option value="Done">Done</option>
                             <option value="Cancel">Cancel</option>

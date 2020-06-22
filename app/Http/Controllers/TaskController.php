@@ -19,9 +19,25 @@ class TaskController extends Controller
         $this->middleware('auth');
     }
 
-    public function overview()
+    public function overview(Request $request)
     {
-        return view('task.overview');
+        $role = auth()->user()->role;
+        $new = Survey::where(['status' => 'new', 'handler' => $role])->count();
+        $onProgress = Survey::where(['status' => 'on progress', 'handler' => $role])->count();
+        $done = Survey::where(['status' => 'done', 'handler' => $role])->count();
+
+        $action = $request->d;
+        $datas = [];
+        if ($action) {
+            $datas = Survey::where(['status' => $action, 'handler' => $role])->paginate(10);
+        }
+
+        $validate1 = auth()->user()->role == 'Verificator' ? 'verificator_1' : (auth()->user()->role == 'Deployment' ? 'deployment_1' : 'manager_1');
+        $validate2 = auth()->user()->role == 'Verificator' ? 'verificator_2' : (auth()->user()->role == 'Deployment' ? 'deployment_2' : 'manager_2');
+        $validate1Date = $validate1 . '_date';
+        $validate2Date = $validate2 . '_date';
+
+        return view('task.overview', compact('datas', 'new', 'onProgress', 'done', 'validate1', 'validate2', 'validate1Date', 'validate2Date'));
     }
 
     public function search(Request $request)

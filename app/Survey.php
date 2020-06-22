@@ -24,6 +24,12 @@ class Survey extends Model
         'latitude' => 'float',
         'longitude' => 'float',
         'estimated_time' => 'date',
+        'verificator_1_date' => 'date',
+        'verificator_2_date' => 'date',
+        'manager_1_date' => 'date',
+        'manager_2_date' => 'date',
+        'deployment_1_date' => 'date',
+        'deployment_2_date' => 'date',
     ];
 
     public function getPriceAttribute()

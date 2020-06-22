@@ -159,6 +159,10 @@ label {
     -ms-transform: translateY(-50%);
 }
 
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #9c1010 !important;
+}
+
 /** Chat Box **/
 /* Button used to open the chat form - fixed at the bottom of the page */
 .open-chat {

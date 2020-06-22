@@ -20,6 +20,7 @@ Route::post('/survey', 'SurveyController@store')->name('survey.store');
 Route::get('/survey/{survey}', 'SurveyController@edit')->name('survey.edit');
 Route::put('/survey/{survey}', 'SurveyController@update')->name('survey.update');
 Route::put('/survey/{survey}/updatetime', 'SurveyController@updateTime')->name('survey.updateTime');
+Route::put('/survey/{survey}/validate', 'SurveyController@validator')->name('survey.validate');
 
 Route::view('/thanks', 'survey.thanks')->name('survey.thanks');
 

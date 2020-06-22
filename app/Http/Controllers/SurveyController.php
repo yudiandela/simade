@@ -130,4 +130,57 @@ class SurveyController extends Controller
             'status' => 'OK'
         ]);
     }
+
+    public function validator(Request $request, Survey $survey)
+    {
+        $survey->update($request->all());
+
+        foreach ($request->all() as $key => $value) {
+            $requestKey[] = $key;
+        }
+
+        $handler = null;
+        if ($requestKey[0] == 'verificator_1') {
+            if ($survey->verificator_2 != 'Pending') {
+                $handler = 'Deployment';
+            }
+        } elseif ($requestKey[0] == 'verificator_2') {
+            if ($survey->verificator_1 != 'Pending') {
+                $handler = 'Deployment';
+            }
+        } elseif ($requestKey[0] == 'deployment_1') {
+            if ($survey->deployment_2 != 'Pending') {
+                $handler = 'Manager CS';
+            }
+        } elseif ($requestKey[0] == 'deployment_2') {
+            if ($survey->deployment_1 != 'Pending') {
+                $handler = 'Manager CS';
+            }
+        }
+
+        if ($handler) {
+            $survey->update(['handler' => $handler]);
+        }
+
+        $status = null;
+        if ($requestKey[0] == 'manager_1') {
+            if ($survey->manager_2 != 'Pending') {
+                $status = 'Done';
+            }
+        } elseif ($requestKey[0] == 'manager_2') {
+            if ($survey->manager_1 != 'Pending') {
+                $status = 'Done';
+            }
+        }
+
+        if ($status) {
+            $survey->update(['status' => $status]);
+        } else {
+            $survey->update(['status' => 'On Progress']);
+        }
+
+        return response()->json([
+            'status' => 'OK'
+        ]);
+    }
 }
