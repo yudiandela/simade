@@ -133,27 +133,36 @@ class SurveyController extends Controller
 
     public function validator(Request $request, Survey $survey)
     {
+        $handler = null;
+        $status = $request->status;
+        $note = null;
+
         $survey->update($request->all());
 
         foreach ($request->all() as $key => $value) {
             $requestKey[] = $key;
         }
 
-        $handler = null;
         if ($requestKey[0] == 'verificator_1') {
-            if ($survey->verificator_2 != 'Pending') {
+            if ($survey->verificator_2 !== 'Complete') {
+                $note = 'Pending Task 2 Verificator';
+            } else {
                 $handler = 'Deployment';
+                $note = 'Verificator approved : Data benar dan Pelanggan Minat';
             }
         } elseif ($requestKey[0] == 'verificator_2') {
-            if ($survey->verificator_1 != 'Pending') {
+            if ($survey->verificator_1 !== 'Complete') {
+                $note = 'Pending Task 1 Verificator';
+            } else {
                 $handler = 'Deployment';
+                $note = 'Verificator approved : Data benar dan Pelanggan Minat';
             }
         } elseif ($requestKey[0] == 'deployment_1') {
-            if ($survey->deployment_2 != 'Pending') {
+            if ($survey->deployment_2 !== 'Complete') {
                 $handler = 'Manager CS';
             }
         } elseif ($requestKey[0] == 'deployment_2') {
-            if ($survey->deployment_1 != 'Pending') {
+            if ($survey->deployment_1 !== 'Complete') {
                 $handler = 'Manager CS';
             }
         }
@@ -162,7 +171,10 @@ class SurveyController extends Controller
             $survey->update(['handler' => $handler]);
         }
 
-        $status = null;
+        if ($note) {
+            $survey->update(['note' => $note]);
+        }
+
         if ($requestKey[0] == 'manager_1') {
             if ($survey->manager_2 != 'Pending') {
                 $status = 'Done';

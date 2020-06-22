@@ -107,22 +107,60 @@
         </div>
     </div>
 </div>
+
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="">Catatan :</label>
+                    <textarea name="note" id="note" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button id="btnSubmit" type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
     <script>
         $().ready(function () {
+            let survey_id, name, value, date, url, note;
             $('.validate').change(function() {
-                var survey_id = $(this).data('survey-id');
-                var name = $(this).attr('name');
-                var value = $(this).val();
-                var date = "{{ Carbon\Carbon::now() }}";
+                survey_id = $(this).data('survey-id');
+                name = $(this).attr('name');
+                value = $(this).val();
+                date = "{{ Carbon\Carbon::now() }}";
+
+                url = "{{ route('survey.validate', ':survey_id') }}";
+                url = url.replace(':survey_id', survey_id);
 
                 if (value !== 'Complete') {
-                    console.log('tampilkan modal form');
+                    $('.modal').modal('show');
+                    $('.modal-title').text(`Task ${value}`);
+
+                    note = $('#note');
+                    note.attr('placeholder', `Berikan keterangan ${value}`);
+
+                    $('#btnSubmit').click(function() {
+                        postData(url, 'PUT', {
+                            [name]: value,
+                            [name + "_date"]: date,
+                            'note' : note.val(),
+                            'status' : value
+                        });
+                    });
                 } else {
-                    var url = "{{ route('survey.validate', ':survey_id') }}";
-                    url = url.replace(':survey_id', survey_id);
                     postData(url, 'PUT', {
                         [name]: value,
                         [name + "_date"]: date
