@@ -201,7 +201,7 @@
                             </tbody> --}}
                         </table>
 
-                        {{ $surveys->links('components.pagination') }}
+                        {{-- {{ $surveys->withQueryString()->links() }} --}}
                     </div>
                 </div>
 
